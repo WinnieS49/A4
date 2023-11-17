@@ -35,17 +35,18 @@
 
     if(isset($_SESSION['valid_user'])){ //if user is logged in and this model is not in watchlsit
         $email = $_SESSION['valid_user'];
-        $query = "SELECT COUNT(*) FROM watchlist WHERE productCode=? AND email=?";
+        $query = "SELECT 1 FROM watchlist WHERE productCode=? AND email=? LIMIT 1";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param('ss',$prodCode, $email);
+        $stmt->bind_param('ss', $prodCode, $email);
         $stmt->execute();
-        $stmt->bind_result($count);
-        if($stmt->fetch() && $count == 0){
+        $stmt->store_result();
+        if($stmt->num_rows == 0){
+            $stmt->close();
             echo "<form action=\"addtowatchlist.php\" method=\"post\">\n";
 	        echo "<input type=\"hidden\" name=\"productCode\" value=$prodCode>\n";
 	        echo "<input type=\"submit\" value=\"Add To Watchlist\">\n";
 	        echo "</form>\n";
-        }
+        }else $stmt->close();
     }
     
 
