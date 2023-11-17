@@ -4,6 +4,7 @@
                 $_SERVER['REQUEST_URI']);
             exit();
         }
+    session_start();
 
     $servername = "localhost";
     $username = "root"; //login with root
