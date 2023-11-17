@@ -19,20 +19,22 @@
 
 	if (isset($_SESSION['valid_user'])) {
         $email = $_SESSION['valid_user'];
-		$query = "SELECT * FROM watchlist WHERE productCode=? AND email=?";
+		$query = "SELECT COUNT(*) FROM watchlist WHERE productCode=? AND email=?";
 		$stmt = $conn->prepare($query);
-		$stmt->bind_param('ss', $code, $_SESSION['valid_user']);
+		$stmt->bind_param('ss', $prodCode, $email);
 		$stmt->execute();
 		$stmt->bind_result($count);
-	    if($stmt->fetch() && $count > 0){
-            $query = "INSERT INTO watchlist (email, productCode) VALUES (?,?)";
-	  
+	    if($stmt->fetch() && $count == 0){
+            $query = "INSERT INTO watchlist (email, productCode) VALUES (?, ?)";
+            $values = [$email, $productCode];
+        
+            $stmt->close();
             $res = $conn->prepare($query);
-            $res->bind_param('ss',$email,$productCode);
-            $res->execute();
-                      
-            $message = urlencode("The model has been added to your <a href=\"showwatchlist.php\">watchlist</a>.");
-        }
+            $res->bind_param('ss', ...$values);
+            $res->execute();       
+            echo "The model has been added to your <a href=\"watchlist.php\">watchlist</a>.";
+        }else
+        echo "The model has already been entered into you watchlist <a href=\"watchlist.php\">watchlist</a>.";
 	}
 
 
