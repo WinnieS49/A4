@@ -34,8 +34,9 @@
     $result->free_result();
 
     if(isset($_SESSION['valid_user'])){ //if user is logged in and this model is not in watchlsit
-
+        
     }
+    
 
 
 

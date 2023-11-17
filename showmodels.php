@@ -8,7 +8,7 @@
     <body>
         <ul class="menu-bar">
             <li class="menu-item"><a href="showmodels.php">Models</a></li>
-            <li class="menu-item"><a href="addtowatchlist.php">Watchlist</a></li>
+            <li class="menu-item"><a href="watchlist.php">Watchlist</a></li>
             <?php
             session_start();
             if (isset($_SESSION['valid_user'])){
