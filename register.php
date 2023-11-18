@@ -20,8 +20,6 @@
     }
 
     if (isset($_POST['submit'])) {
-
-        // detect if each variable is set (fname, lname, email, password, sid, faculty)
         $fname = !empty($_POST["fname"]) ? trim($_POST["fname"]) : "";
         $lname = !empty($_POST["lname"]) ? trim($_POST["lname"]) : "";
         $email = !empty($_POST["email"]) ? trim($_POST["email"]) : "";
@@ -31,13 +29,13 @@
             $message = "All fields manadatory.";
         }
         else {
-            $pw_encrypted = password_hash($password, PASSWORD_DEFAULT);
+            $encryptedPass = password_hash($password, PASSWORD_DEFAULT);
     
             $query = "INSERT INTO users (email, password, firstName,lastName) ";
             $query .= "VALUES (?,?,?,?)";
             
             $result = $conn->prepare($query);
-            $result->bind_param('ssss',$email,$pw_encrypted,$fname,$lname);
+            $result->bind_param('ssss',$email,$encryptedPass,$fname,$lname);
             $result->execute();
             echo $query;
             header("Location: login.php");
@@ -48,8 +46,6 @@
         $fname = "";
         $lname = "";
         $email = "";
-        $s_id = "";
-        $faculty = "";
     }
 ?>
 
@@ -64,5 +60,9 @@
     <label for="password">Password: <input type="password" name="password" value=""></label>
     <br/>
     <input type="submit" name="submit" value="Register">
-    <?php if(!empty($message)) echo '<p class="message">' . $message . '</p>' ?>
+    <?php 
+        if(!empty($message)){
+            echo '<p class="message">' . $message . '</p>';
+        } 
+    ?>
 </form>
