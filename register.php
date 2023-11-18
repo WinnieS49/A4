@@ -19,15 +19,19 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
+    //check if all the fields are filled 
     if (isset($_POST['submit'])) {
         $fname = !empty($_POST["fname"]) ? trim($_POST["fname"]) : "";
         $lname = !empty($_POST["lname"]) ? trim($_POST["lname"]) : "";
         $email = !empty($_POST["email"]) ? trim($_POST["email"]) : "";
         $password = !empty($_POST["password"]) ? $_POST["password"] : "";
         
+        //if not all fields are filled, message will appear 
         if (!$fname || !$lname || !$email || !$password) {
-            $message = "All fields manadatory.";
+            $message = "Please fill all the fields above.";
         }
+
+        //all fields are filled, password will be encrypted and data saved into user table and jump to login page
         else {
             $encryptedPass = password_hash($password, PASSWORD_DEFAULT);
     
@@ -50,7 +54,8 @@
 ?>
 
 <h2>Register</h2>
-<form method="post" action="register.php">
+<!-- HTML register form -->
+<form method="post" action="register.php"> 
     <label for="fname">First Name: <input name="fname" type="text" value="<?php $fname ?>"></label>
     <br/>
     <label for="lname">Last Name: <input type="text" name="lname" value="<?php $lname ?>"></label>
@@ -61,6 +66,7 @@
     <br/>
     <input type="submit" name="submit" value="Register">
     <?php 
+    // if the message is not empty (user does not fill all the info), it will display the message
         if(!empty($message)){
             echo '<p class="message">' . $message . '</p>';
         } 
