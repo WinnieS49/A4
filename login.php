@@ -3,7 +3,7 @@
             header("Location: https://" . $_SERVER['HTTP_HOST'] .
                 $_SERVER['REQUEST_URI']);
             exit();
-        }
+    }
     session_start();
 
     $servername = "localhost";
@@ -19,11 +19,14 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    if (!isset($_POST['submit'])) { // detect form submission
-
-        $email = $pass = "";
+    //check form submission
+    if (!isset($_POST['submit'])) {
+        $email = "";
+        $pass = "";
     
-    } else {
+    } 
+    //retrieve email and password submission
+    else {
         $email = !empty($_POST["email"]) ? trim($_POST["email"]) : "";
         $password = !empty($_POST["password"]) ? trim($_POST["password"]) : "";
     
@@ -35,17 +38,19 @@
         $result->bind_result($dbEmail, $dbPassword);
         $result->fetch();
 
+        //check email matching from database, set current session to email
         if ($email == $dbEmail) {
             if (password_verify($password, $dbPassword)) {
                 $_SESSION['valid_user'] = $email;
-                echo "Login successful!";
+                echo "You have logged in.";
+                //return to showmodels.php upon login
                 header('Location: ' . 'showmodels.php');
                 exit();
             } else {
-                echo "Incorrect password!";
+                echo "Incorrect password.";
             }
         } else {
-            echo "User not found! Please try again.";
+            echo "User was not found. Try again.";
         }
         
     }
@@ -62,4 +67,4 @@
     <br/>
     <input type="submit" name="submit" value="Submit">
             </form>
-	<p><a href="register.php">Not registered yet? Register here.</a></p>
+	<p><a href="register.php">Not registered yet. Register here.</a></p>
