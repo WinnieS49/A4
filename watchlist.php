@@ -20,7 +20,9 @@
     }
 
     if(!isset($_SESSION['valid_user'])) { //not logged in
-
+        $_SESSION['callback_url'] = 'watchlist.php';
+        header('Location: ' . 'login.php');
+        exit(); 
     } 
 
     $email = $_SESSION['valid_user'];
