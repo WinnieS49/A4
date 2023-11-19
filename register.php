@@ -1,8 +1,8 @@
 <?php
     if($_SERVER['HTTPS'] != "on") {
-            header("Location: https://" . $_SERVER['HTTP_HOST'] .
-                $_SERVER['REQUEST_URI']);
-            exit();
+        header("Location: https://" . $_SERVER['HTTP_HOST'] .
+            $_SERVER['REQUEST_URI']);
+        exit();
     }
     session_start();
 
@@ -42,6 +42,7 @@
             $result->bind_param('ssss',$email,$encryptedPass,$fname,$lname);
             $result->execute();
 
+            //login after they register
             $_SESSION['valid_user'] = $email;
             header("Location: showmodels.php");
             exit();
