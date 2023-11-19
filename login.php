@@ -10,6 +10,7 @@
     $username = "root"; //login with root
     $password = "";
     $dbname = "classicmodels"; //classicmodels.sql
+    $callback_url = "";
     
     //create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -43,9 +44,20 @@
             if (password_verify($password, $dbPassword)) {
                 $_SESSION['valid_user'] = $email;
                 echo "You have logged in.";
-                //return to showmodels.php upon login
-                header('Location: ' . 'showmodels.php');
-                exit();
+
+                //check if there is a callback URL
+                if (isset($_SESSION['callback_url'])) {
+                    $callback_url = $_SESSION['callback_url'];
+                    unset($_SESSION['callback_url']);
+
+                    //redirect to the callback URL
+                    header("Location: $callback_url");
+                    exit();
+                } else {
+                    //no callback URL redirect to showmodels.php
+                    header("Location: showmodels.php");
+                    exit();
+                }
             } else {
                 echo "Incorrect password.";
             }

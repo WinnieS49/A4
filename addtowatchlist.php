@@ -39,6 +39,7 @@
         }else
         echo "Models is already in your watchlist <a href=\"watchlist.php\">watchlist</a>.";
 	}else{
+        $_SESSION['callback_url'] = 'addtowatchlist.php';
         header('Location: ' . 'login.php');
         exit(); 
     }

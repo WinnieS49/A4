@@ -19,9 +19,8 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    if(!isset($_SESSION['valid_user'])) {
-        header('Location: ' . 'showmodels.php');
-        exit(); 
+    if(!isset($_SESSION['valid_user'])) { //not logged in
+
     } 
 
     $email = $_SESSION['valid_user'];

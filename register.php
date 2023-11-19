@@ -44,8 +44,20 @@
 
             //login after they register
             $_SESSION['valid_user'] = $email;
-            header("Location: showmodels.php");
-            exit();
+
+            //check if there is a callback URL
+            if (isset($_SESSION['callback_url'])) {
+                $callback_url = $_SESSION['callback_url'];
+                unset($_SESSION['callback_url']);
+
+                //redirect to the callback URL
+                header("Location: $callback_url");
+                exit();
+            } else {
+                //no callback URL redirect to showmodels.php
+                header("Location: showmodels.php");
+                exit();
+            }
         }
     }
     else {
