@@ -1,3 +1,4 @@
+<!-- navifation bar -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -9,6 +10,7 @@
         <ul class="menu-bar">
             <li class="menu-item"><a href="showmodels.php">Models</a></li>
             <li class="menu-item"><a href="watchlist.php">Watchlist</a></li>
+            <!-- check if user login, show differenrt options based on user status -->
             <?php
             session_start();
             if (isset($_SESSION['valid_user'])){
@@ -43,12 +45,15 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
+    //query to get the data from products table and display on the page
     $query = "SELECT productCode, productName FROM products";
     $result = $conn->query($query);
 
     echo "<h2>All Models</h2>";
 
     echo "<ul class = 'modellist'>";
+
+    //display the data get from query 
     while ($row = $result->fetch_row()) {
         echo "<li>";
         echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
