@@ -1,3 +1,28 @@
+<!-- navigation bar -->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Classic Models</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <ul class="menu-bar">
+            <li class="menu-item"><a href="showmodels.php"> All Models</a></li>
+            <li class="menu-item"><a href="watchlist.php">Watchlist</a></li>
+            <!-- check if user login, show differenrt options based on user status -->
+            <?php
+            if (isset($_SESSION['valid_user'])){
+                echo "<li class='menu-item'><a href='logout.php'>Logout</a></li>";
+            }else{
+                echo "<li class='menu-item'><a href='login.php'>Login</a></li>";
+            }
+
+            ?>
+        </ul>
+
+    </body>
+</html>
 <?php
     if($_SERVER['HTTPS'] != "on") {
         header("Location: https://" . $_SERVER['HTTP_HOST'] .
@@ -69,20 +94,22 @@
 
 <h2>Register</h2>
 <!-- HTML register form -->
-<form method="post" action="register.php"> 
-    <label for="fname">First Name: <input name="fname" type="text" value="<?php $fname ?>"></label>
-    <br/>
-    <label for="lname">Last Name: <input type="text" name="lname" value="<?php $lname ?>"></label>
-    <br/>
-    <label for="email">Email Address: <input type="email" name="email" value="<?php $email ?>"></label>
-    <br/>
-    <label for="password">Password: <input type="password" name="password" value=""></label>
-    <br/>
-    <input type="submit" name="submit" value="Register">
-    <?php 
-    // if the message is not empty (user does not fill all the info), it will display the message
-        if(!empty($message)){
-            echo '<p class="message">' . $message . '</p>';
-        } 
-    ?>
-</form>
+<div class = pad>
+    <form method="post" action="register.php"> 
+        <label for="fname">First Name: <input name="fname" type="text" value="<?php $fname ?>"></label>
+        <br/>
+        <label for="lname">Last Name: <input type="text" name="lname" value="<?php $lname ?>"></label>
+        <br/>
+        <label for="email">Email Address: <input type="email" name="email" value="<?php $email ?>"></label>
+        <br/>
+        <label for="password">Password: <input type="password" name="password" value=""></label>
+        <br/>
+        <input type="submit" name="submit" value="Register">
+        <?php 
+        // if the message is not empty (user does not fill all the info), it will display the message
+            if(!empty($message)){
+                echo '<p class="message">' . $message . '</p>';
+            } 
+        ?>
+    </form>
+</div>

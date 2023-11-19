@@ -1,3 +1,29 @@
+<!-- navigation bar -->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Classic Models</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <ul class="menu-bar">
+            <li class="menu-item"><a href="showmodels.php"> All Models</a></li>
+            <li class="menu-item"><a href="watchlist.php">Watchlist</a></li>
+            <!-- check if user login, show differenrt options based on user status -->
+            <?php
+            if (isset($_SESSION['valid_user'])){
+                echo "<li class='menu-item'><a href='logout.php'>Logout</a></li>";
+            }else{
+                echo "<li class='menu-item'><a href='login.php'>Login</a></li>";
+            }
+
+            ?>
+        </ul>
+
+    </body>
+</html>
+
 <?php
     if($_SERVER['HTTPS'] != "on") {
             header("Location: https://" . $_SERVER['HTTP_HOST'] .
@@ -32,7 +58,7 @@
     $res = $conn->query($query_str);
 
     echo "<h2>Your Watchlist</h2>\n";
-    echo "<ul>\n";
+    echo "<ul class = modellist>\n";
     while ($row = $res->fetch_row()) {
         echo "<li>";
         echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
