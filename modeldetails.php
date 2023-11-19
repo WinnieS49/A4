@@ -40,21 +40,10 @@
     //release results
     $result->free_result();
 
-    if(isset($_SESSION['valid_user'])){ //if user is logged in and this model is not in watchlsit
-        $email = $_SESSION['valid_user'];
-        $query = "SELECT 1 FROM watchlist WHERE productCode=? AND email=? LIMIT 1";
-        $res = $conn->prepare($query);
-        $res->bind_param('ss', $prodCode, $email);
-        $res->execute();
-        $res->store_result();
-        if($res->num_rows == 0){
-            $res->close();
-            //form to add to watchlist
-            echo "<form action=\"addtowatchlist.php\" method=\"post\">\n";
-	        echo "<input type=\"hidden\" name=\"productCode\" value=$prodCode>\n";
-	        echo "<input type=\"submit\" value=\"Add To Watchlist\">\n";
-	        echo "</form>\n";
-        }else $res->close();
-    }
+    echo "<form action=\"addtowatchlist.php\" method=\"post\">\n";
+    echo "<input type=\"hidden\" name=\"productCode\" value=$prodCode>\n";
+    echo "<input type=\"submit\" value=\"Add To Watchlist\">\n";
+    echo "</form>\n";
+
     $conn->close();
 ?>

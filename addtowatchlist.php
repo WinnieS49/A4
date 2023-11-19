@@ -38,7 +38,10 @@
             echo "Model has been added to your <a href=\"watchlist.php\">watchlist</a>.";
         }else
         echo "Models is already in your watchlist <a href=\"watchlist.php\">watchlist</a>.";
-	}
+	}else{
+        header('Location: ' . 'login.php');
+        exit(); 
+    }
 
 
 ?>
