@@ -19,6 +19,7 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
+    //retrieve prodCode from url
     $prodCode = $_GET['productCode'];
     $query = "SELECT * FROM products WHERE productCode = ?"; 
     $result = $conn->prepare($query);
@@ -26,31 +27,34 @@
     $result->execute();
     $result->bind_result($prCode,$prName,$prLine,$prScale,$prVendor,$prDesc,$prQ,$prPrice,$MSRP);
 
+    //display results
     if($result->fetch()) {
         echo "<h3>$prName</h3>\n";
-        echo "<p>Category: $prLine, Scale: $prScale, Vendor: $prVendor, Price: \$$prPrice</p>\n";
+        echo "<p>Category: $prLine</p>\n";
+        echo "<p>Scale: $prScale</p>\n";
+        echo "<p>Vendor: $prVendor</p>\n";
+        echo "<p>Price: $prPrice</p>\n";
         echo "<p>Description: $prDesc</p>\n";
-        }
+    }
+
+    //release results
     $result->free_result();
 
     if(isset($_SESSION['valid_user'])){ //if user is logged in and this model is not in watchlsit
         $email = $_SESSION['valid_user'];
         $query = "SELECT 1 FROM watchlist WHERE productCode=? AND email=? LIMIT 1";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param('ss', $prodCode, $email);
-        $stmt->execute();
-        $stmt->store_result();
-        if($stmt->num_rows == 0){
-            $stmt->close();
+        $res = $conn->prepare($query);
+        $res->bind_param('ss', $prodCode, $email);
+        $res->execute();
+        $res->store_result();
+        if($res->num_rows == 0){
+            $res->close();
+            //form to add to watchlist
             echo "<form action=\"addtowatchlist.php\" method=\"post\">\n";
 	        echo "<input type=\"hidden\" name=\"productCode\" value=$prodCode>\n";
 	        echo "<input type=\"submit\" value=\"Add To Watchlist\">\n";
 	        echo "</form>\n";
-        }else $stmt->close();
+        }else $res->close();
     }
-    
-
-
-
     $conn->close();
 ?>
