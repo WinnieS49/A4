@@ -41,8 +41,9 @@
             $result = $conn->prepare($query);
             $result->bind_param('ssss',$email,$encryptedPass,$fname,$lname);
             $result->execute();
-            echo $query;
-            header("Location: login.php");
+
+            $_SESSION['valid_user'] = $email;
+            header("Location: showmodels.php");
             exit();
         }
     }

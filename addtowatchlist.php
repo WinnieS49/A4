@@ -34,7 +34,7 @@
             $res->execute();       
             echo "The model has been added to your <a href=\"watchlist.php\">watchlist</a>.";
         }else
-        echo "The model has already been entered into you watchlist <a href=\"watchlist.php\">watchlist</a>.";
+        echo "Models is already in your watchlist <a href=\"watchlist.php\">watchlist</a>.";
 	}
 
 
