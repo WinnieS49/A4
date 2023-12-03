@@ -47,27 +47,27 @@
 
     //check form submission
     if (!isset($_POST['submit'])) {
-        $email = "";
+        $username = "";
         $pass = "";
     
     } 
     //retrieve email and password submission
     else {
-        $email = !empty($_POST["email"]) ? trim($_POST["email"]) : "";
+        $username = !empty($_POST["username"]) ? trim($_POST["username"]) : "";
         $password = !empty($_POST["password"]) ? trim($_POST["password"]) : "";
     
-        $query = "SELECT email, password FROM users WHERE email = ?";
+        $query = "SELECT username, password FROM users WHERE username = ?";
     
         $result = $conn->prepare($query);
-        $result->bind_param('s',$email);
+        $result->bind_param('s',$username);
         $result->execute();
-        $result->bind_result($dbEmail, $dbPassword);
+        $result->bind_result($dbUsername, $dbPassword);
         $result->fetch();
 
         //check email matching from database, set current session to email
-        if ($email == $dbEmail) {
+        if ($username == $dbUsername) {
             if (password_verify($password, $dbPassword)) {
-                $_SESSION['valid_user'] = $email;
+                $_SESSION['valid_user'] = $username;
                 echo "You have logged in.";
 
                 //check if there is a callback URL
@@ -99,7 +99,7 @@
 
     <div class = pad>
         <form action="login.php" method="post">
-        <label for="email">Email Address: <input type="email" name="email" value="<?php $email ?>"></label>
+        <label for="username">Username: <input type="text" name="username" value="<?php $email ?>"></label>
         <br/>
         <label for="password">Password: <input type="password" name="password" value=""></label>
         <br/>
