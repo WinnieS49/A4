@@ -46,7 +46,7 @@
     }
 
     //query to get the data from products table and display on the page
-    $query = "SELECT Title FROM video_games_2022";
+    $query = "SELECT gameId, Title FROM video_games_2022";
     $result = $conn->query($query);
 
     echo "<h2>All Games</h2>";
@@ -56,7 +56,7 @@
     //display the data get from query 
     while ($row = $result->fetch_row()) {
         echo "<li>";
-        echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[0]</a>";
+        echo "<a href=\"modeldetails.php?gameId=$row[0]\">$row[1]</a>";
         echo "</li>\n";
     };
     echo "</ul>";

@@ -32,7 +32,7 @@
                 $servername = "localhost";
                 $username = "root"; //login with root
                 $password = "";
-                $dbname = "classicmodels"; //classicmodels.sql
+                $dbname = "gamearchive"; //classicmodels.sql
                 
                 //create connection
                 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -43,21 +43,20 @@
                 }
 
                 //retrieve prodCode from url
-                $prodCode = $_GET['productCode'];
-                $query = "SELECT * FROM products WHERE productCode = ?"; 
+                $gameId = $_GET['gameId'];
+                $query = "SELECT * FROM video_games_2022 WHERE gameId = ?"; 
                 $result = $conn->prepare($query);
-                $result->bind_param('s', $prodCode);
+                $result->bind_param('s', $gameId);
                 $result->execute();
-                $result->bind_result($prCode,$prName,$prLine,$prScale,$prVendor,$prDesc,$prQ,$prPrice,$MSRP);
+                $result->bind_result($gmId, $month, $day, $title, $platform, $genre, $developer, $publisher);
 
                 //display results
                 if($result->fetch()) {
-                    echo "<h3>$prName</h3>\n";
-                    echo "<p>Category: $prLine</p>\n";
-                    echo "<p>Scale: $prScale</p>\n";
-                    echo "<p>Vendor: $prVendor</p>\n";
-                    echo "<p>Price: $prPrice</p>\n";
-                    echo "<p>Description: $prDesc</p>\n";
+                    echo "<h3>$title</h3>\n";
+                    echo "<p>Release Date: $month $day</p>\n";
+                    echo "<p>Developer: $developer</p>\n";
+                    echo "<p>Platforms: $platform</p>\n";
+                    echo "<p>Genres: $genre</p>\n";
                 }
 
                 //release results
@@ -65,7 +64,7 @@
 
                 
                 echo "<form action=\"addtowatchlist.php\" method=\"post\">\n";
-                echo "<input type=\"hidden\" name=\"productCode\" value=$prodCode>\n";
+                echo "<input type=\"hidden\" name=\"productCode\" value=$gmId>\n";
                 echo "<input type=\"submit\" value=\"Add To Watchlist\">\n";
                 echo "</form>\n";
 
