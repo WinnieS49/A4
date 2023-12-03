@@ -34,7 +34,7 @@
     $servername = "localhost";
     $username = "root"; //login with root
     $password = "";
-    $dbname = "classicmodels"; //classicmodels.sql
+    $dbname = "gamearchive"; //classicmodels.sql
     $callback_url = "";
     
     //create connection
