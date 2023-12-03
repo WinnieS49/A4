@@ -12,6 +12,7 @@
             <li class="menu-item"><a href="watchlist.php">Watchlist</a></li>
             <!-- check if user login, show differenrt options based on user status -->
             <?php
+            session_start();
             if (isset($_SESSION['valid_user'])){
                 echo "<li class='menu-item'><a href='logout.php'>Logout</a></li>";
             }else{
@@ -29,7 +30,6 @@
             $_SERVER['REQUEST_URI']);
         exit();
     }
-    session_start();
 
     $servername = "localhost";
     $username = "root"; //login with root
