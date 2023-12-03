@@ -34,7 +34,7 @@
     $servername = "localhost";
     $username = "root"; //login with root
     $password = "";
-    $dbname = "classicmodels"; //classicmodels.sql
+    $dbname = "gamearchive"; //classicmodels.sql
     
     //create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -46,13 +46,14 @@
 
     //check if all the fields are filled 
     if (isset($_POST['submit'])) {
-        $fname = !empty($_POST["fname"]) ? trim($_POST["fname"]) : "";
-        $lname = !empty($_POST["lname"]) ? trim($_POST["lname"]) : "";
+        $name = !empty($_POST["name"]) ? trim($_POST["name"]) : "";
         $email = !empty($_POST["email"]) ? trim($_POST["email"]) : "";
         $password = !empty($_POST["password"]) ? $_POST["password"] : "";
+        $username = !empty($_POST["username"]) ? $_POST["username"] : "";
+        $phoneNumber = !empty($_POST["phoneNumber"]) ? $_POST["phoneNumber"] : "";
         
         //if not all fields are filled, message will appear 
-        if (!$fname || !$lname || !$email || !$password) {
+        if (!$name || !$email || !$username || !$password|| !$phoneNumber) {
             $message = "Please fill all the fields above.";
         }
 
@@ -60,11 +61,11 @@
         else {
             $encryptedPass = password_hash($password, PASSWORD_DEFAULT);
     
-            $query = "INSERT INTO users (email, password, firstName,lastName) ";
-            $query .= "VALUES (?,?,?,?)";
+            $query = "INSERT INTO users (email, password, name, username, phoneNumber) ";
+            $query .= "VALUES (?,?,?,?, ?)";
             
             $result = $conn->prepare($query);
-            $result->bind_param('ssss',$email,$encryptedPass,$fname,$lname);
+            $result->bind_param('sssss',$email,$encryptedPass,$name, $username, $phoneNumber);
             $result->execute();
 
             //login after they register
@@ -86,9 +87,10 @@
         }
     }
     else {
-        $fname = "";
-        $lname = "";
+        $name = "";
         $email = "";
+        $password = "";
+        $phoneNumber = "";
     }
 ?>
 
@@ -96,11 +98,13 @@
 <!-- HTML register form -->
 <div class = pad>
     <form method="post" action="register.php"> 
-        <label for="fname">First Name: <input name="fname" type="text" value="<?php $fname ?>"></label>
-        <br/>
-        <label for="lname">Last Name: <input type="text" name="lname" value="<?php $lname ?>"></label>
+        <label for="lname">Name: <input type="text" name="name" value="<?php $name ?>"></label>
         <br/>
         <label for="email">Email Address: <input type="email" name="email" value="<?php $email ?>"></label>
+        <br/>
+        <label for="phoneNumber">Phone Number: <input type="text" name="phoneNumber" value="<?php $email ?>"></label>
+        <br/>
+        <label for="username">Username: <input type="text" name="username" value="<?php $email ?>"></label>
         <br/>
         <label for="password">Password: <input type="password" name="password" value=""></label>
         <br/>
