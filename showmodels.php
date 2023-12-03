@@ -35,7 +35,7 @@
     $servername = "localhost";
     $username = "root"; //login with root
     $password = "";
-    $dbname = "classicmodels"; //classicmodels.sql
+    $dbname = "gamearchive"; //classicmodels.sql
     
     //create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -46,17 +46,17 @@
     }
 
     //query to get the data from products table and display on the page
-    $query = "SELECT productCode, productName FROM products";
+    $query = "SELECT Title FROM video_games_2022";
     $result = $conn->query($query);
 
-    echo "<h2>All Models</h2>";
+    echo "<h2>All Games</h2>";
 
     echo "<ul class = 'modellist'>";
 
     //display the data get from query 
     while ($row = $result->fetch_row()) {
         echo "<li>";
-        echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
+        echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[0]</a>";
         echo "</li>\n";
     };
     echo "</ul>";
