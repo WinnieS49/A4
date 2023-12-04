@@ -71,11 +71,9 @@
             $res->free_result();
             $conn->close();
 
-        }else
+        }else{
         echo "Models is already in your watchlist <a href=\"watchlist.php\">watchlist</a>.";
-	}else{
-       
-    }
+        }
 
 
 
