@@ -64,6 +64,7 @@
         //echo "<ul class = modellist>\n";
         while ($resultWatchlist->fetch()) {
             echo $title;
+            echo "<br>";
             // echo "<li>";
             // echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
             // echo " ";
