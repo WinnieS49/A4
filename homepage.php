@@ -30,7 +30,7 @@
     $servername = "localhost";
     $username = "root"; //login with root
     $password = "";
-    $dbname = "classicmodels"; //classicmodels.sql
+    $dbname = "gamearchive"; //classicmodels.sql
     
     //create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -46,31 +46,31 @@
 
 	if (isset($_SESSION['valid_user'])) { //if logged in
         $username = $_SESSION['valid_user'];
-		$query = "SELECT preferredGenre FROM users WHERE username=?";
-		$result = $conn->prepare($query);
-		$result->bind_param('s', $username);
-		$result->execute();
-		$result->bind_result($genre);
-        //check if it exists in watchlist
+        $query = "SELECT preferredGenre FROM users WHERE username=?";
+        $resultUser = $conn->prepare($query);
+        $resultUser->bind_param('s', $username);
+        $resultUser->execute();
+        $resultUser->bind_result($genreUser);
+        $resultUser->fetch();
+        $resultUser->close();
          
-        $query_str = "SELECT Title ";
-        $query_str .= "FROM video_game_2022 ";
-        $query_str .= "WHERE Genre ='$genre'";
-        $res = $conn->query($query_str);
+        $queryWatchlist = "SELECT Title FROM video_games_2022 WHERE Genre = ?";
+        $resultWatchlist = $conn->prepare($queryWatchlist);
+        $resultWatchlist->bind_param('s', $genreUser);
+        $resultWatchlist->execute();
+        $resultWatchlist->bind_result($title);
     
         echo "<h2>Games from Your Favourite Genre</h2>\n";
         //echo "<ul class = modellist>\n";
-        while ($row = $res->fetch_row()) {
-            echo $row[0];
+        while ($resultWatchlist->fetch()) {
+            echo $title;
             // echo "<li>";
             // echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
             // echo " ";
             // echo "</li>\n";
-        };
-        //echo "</ul>\n";
+        }
     
-        $res->free_result();
-        $conn->close();
+        $resultWatchlist->close();
 
     }else{
     echo "Models is already in your watchlist <a href=\"watchlist.php\">watchlist</a>.";
