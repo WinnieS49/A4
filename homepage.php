@@ -79,7 +79,7 @@
         $resultLatest->bind_result($title);
 
         
-        echo "<h2>Latest Games </h2>\n";
+        echo "<h2>Games from Your Favourite Genre</h2>\n";
         //echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
             echo $title;
@@ -92,23 +92,26 @@
         $resultLatest->close();
 
     }else{
+        $selectedMonth = 'December';
         $queryLatest = "SELECT Title FROM video_games_2022 WHERE Month = ?";
         $resultLatest = $conn->prepare($queryLatest);
-        $resultLatest->bind_param('s', $Month);
+        $resultLatest->bind_param('s', $selectedMonth);
         $resultLatest->execute();
-        $resultLatest->bind_result($title);
+        $resultLatest->bind_result($games);
 
         
-        echo "<h2>Latest Games </h2>\n";
+        echo "<h2>Lastest Games</h2>\n";
         //echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
-            echo $title;
+            echo $games;
+            echo "<br>";
             // echo "<li>";
             // echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
             // echo " ";
             // echo "</li>\n";
         }
     
+        $resultLatest->close();
     }
 
 
