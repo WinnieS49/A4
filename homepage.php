@@ -55,7 +55,7 @@
          
         $query_str = "SELECT Title ";
         $query_str .= "FROM video_game_2022 ";
-        $query_str .= "WHERE Genre =$genre";
+        $query_str .= "WHERE Genre ='$genre'";
         $res = $conn->query($query_str);
     
         echo "<h2>Games from Your Favourite Genre</h2>\n";
