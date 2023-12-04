@@ -33,10 +33,13 @@
         if ($result && $result->num_rows > 0) {
             // Fetch the user details
             $row = $result->fetch_assoc();
-            
+
             echo "<form action='edit_profile.php' method='post'>";
             echo "<label for='name'>Name:</label>";
             echo "<input type='text' name='name' required value='{$row['name']}'>";
+
+            echo "<label for='email'>Email:</label>";
+            echo "<input type='text' name='email' required value='{$row['email']}'>";
 
             echo "<label for='username'>Username:</label>";
             echo "<input type='text' name='username' readonly value='{$row['username']}'>";

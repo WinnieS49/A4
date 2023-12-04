@@ -51,6 +51,7 @@
         $password = !empty($_POST["password"]) ? $_POST["password"] : "";
         $username = !empty($_POST["username"]) ? $_POST["username"] : "";
         $phoneNumber = !empty($_POST["phoneNumber"]) ? $_POST["phoneNumber"] : "";
+        $genre = !empty($_POST["preferredGenre"]) ? $_POST["preferredGenre"] : "";
         
         //if not all fields are filled, message will appear 
         if (!$name || !$email || !$username || !$password|| !$phoneNumber) {
@@ -61,11 +62,11 @@
         else {
             $encryptedPass = password_hash($password, PASSWORD_DEFAULT);
     
-            $query = "INSERT INTO users (email, password, name, username, phoneNumber) ";
-            $query .= "VALUES (?,?,?,?, ?)";
+            $query = "INSERT INTO users (email, password, name, username, phoneNumber, preferredGenre) ";
+            $query .= "VALUES (?,?,?,?, ?, ?)";
             
             $result = $conn->prepare($query);
-            $result->bind_param('sssss',$email,$encryptedPass,$name, $username, $phoneNumber);
+            $result->bind_param('ssssss',$email,$encryptedPass,$name, $username, $phoneNumber, $genre);
             $result->execute();
 
             //login after they register
@@ -108,7 +109,17 @@
         <br/>
         <label for="password">Password: <input type="password" name="password" value=""></label>
         <br/>
+        
+        <label for="preferredGenre">Preferred Genre:</label>
+        <select name="preferredGenre">
+            <option value="Action">Action</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Role-playing">Role-playing</option>
+            <option value="Puzzle">Puzzle</option>
+        </select><br/>
+
         <input type="submit" name="submit" value="Register">
+
         <?php 
         // if the message is not empty (user does not fill all the info), it will display the message
             if(!empty($message)){

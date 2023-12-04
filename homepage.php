@@ -46,34 +46,35 @@
 
 	if (isset($_SESSION['valid_user'])) { //if logged in
         $username = $_SESSION['valid_user'];
-		$query = "SELECT preferGenre FROM users WHERE username=?";
+		$query = "SELECT preferredGenre FROM users WHERE username=?";
 		$result = $conn->prepare($query);
-		$result->bind_param('ss', $username);
+		$result->bind_param('s', $username);
 		$result->execute();
 		$result->bind_result($genre);
         //check if it exists in watchlist
          
-            $query_str = "SELECT G.productName ";
-            $query_str .= "FROM gamearchive G ";
-            $query_str .= "WHERE G.genre ='$genre'";
-            $res = $conn->query($query_str);
-        
-            echo "<h2>Games from Your Favourite Genre</h2>\n";
-            echo "<ul class = modellist>\n";
-            while ($row = $res->fetch_row()) {
-                echo "<li>";
-                echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
-                echo " ";
-                echo "</li>\n";
-            };
-            echo "</ul>\n";
-        
-            $res->free_result();
-            $conn->close();
+        $query_str = "SELECT Title ";
+        $query_str .= "FROM video_game_2022 ";
+        $query_str .= "WHERE Genre =$genre";
+        $res = $conn->query($query_str);
+    
+        echo "<h2>Games from Your Favourite Genre</h2>\n";
+        //echo "<ul class = modellist>\n";
+        while ($row = $res->fetch_row()) {
+            echo $row[0];
+            // echo "<li>";
+            // echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
+            // echo " ";
+            // echo "</li>\n";
+        };
+        //echo "</ul>\n";
+    
+        $res->free_result();
+        $conn->close();
 
-        }else{
-        echo "Models is already in your watchlist <a href=\"watchlist.php\">watchlist</a>.";
-        }
+    }else{
+    echo "Models is already in your watchlist <a href=\"watchlist.php\">watchlist</a>.";
+    }
 
 
 

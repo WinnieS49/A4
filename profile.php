@@ -46,7 +46,7 @@
     }
 
     //query to get the data from products table and display on the page
-    $query = "SELECT username, name, password, email, phoneNumber FROM users";
+    $query = "SELECT username, name, password, email, phoneNumber, preferredGenre FROM users";
     $result = $conn->query($query);
 
     $row = $result->fetch_row();
@@ -57,7 +57,8 @@
     echo "<p>Password: *********</p>";
     echo "<p>Email: $row[3]</p>";
     echo "<p>Phone Number: $row[4]</p>";
+    echo "<p>Preferred Genre: $row[5]</p>";
     echo "<a href='edit_profile_form.php?username=$row[0]'>Edit</a>";
-    
+
     $conn->close();
 ?>
