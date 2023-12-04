@@ -79,7 +79,7 @@
         $resultLatest->bind_result($title);
 
         
-        echo "<h2>Games from Your Favourite Genre</h2>\n";
+        echo "<h2>Latest Games </h2>\n";
         //echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
             echo $title;
@@ -92,7 +92,23 @@
         $resultLatest->close();
 
     }else{
-    echo "Models is already in your watchlist <a href=\"watchlist.php\">watchlist</a>.";
+        $queryLatest = "SELECT Title FROM video_games_2022 WHERE Month = ?";
+        $resultLatest = $conn->prepare($queryLatest);
+        $resultLatest->bind_param('s', $Month);
+        $resultLatest->execute();
+        $resultLatest->bind_result($title);
+
+        
+        echo "<h2>Latest Games </h2>\n";
+        //echo "<ul class = modellist>\n";
+        while ($resultLatest->fetch()) {
+            echo $title;
+            // echo "<li>";
+            // echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
+            // echo " ";
+            // echo "</li>\n";
+        }
+    
     }
 
 
