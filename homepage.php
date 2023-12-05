@@ -10,6 +10,7 @@
         <ul class="menu-bar">
             <li class="menu-item"><a href="showmodels.php"> All Models</a></li>
             <li class="menu-item"><a href="watchlist.php">Watchlist</a></li>
+            
             <!-- check if user login, show differenrt options based on user status -->
             <?php
             session_start();
@@ -20,6 +21,12 @@
             }
 
             ?>
+            <li class="menu-item">
+            <form action="search.php" method="get">
+                <input type="text" name="query" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
+        </li>
         </ul>
 
     </body>

@@ -29,27 +29,52 @@
     background-color: #111;
 }
 
-.modellist{
+/* Style for the search bar container */
+.menu-item form {
+    display: flex; /* Use flexbox to align items horizontally */
+    margin-left: 10px; /* Adjust the margin as needed */
+}
+
+.menu-item input[type="text"] {
+    padding: 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.menu-item button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu-item button:hover {
+    background-color: #45a049;
+}
+
+.modellist {
     padding-left: 2em;
     padding-top: 1em;
     padding-bottom: 2em;
     list-style: none;
 }
 
-.pad{
+.pad {
     padding-left: 2em;
     padding-top: 1em;
     padding-bottom: 2em;
     list-style: none;
 }
 
-h2{
+h2 {
     padding-left: 1.5em;
     padding-top: 1.5em;
 }
 
-h3{
+h3 {
     padding-left: 1.5em;
     padding-top: 1.5em;
 }
-
