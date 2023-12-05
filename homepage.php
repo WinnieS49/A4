@@ -21,16 +21,20 @@
                 echo "<li class='menu-item'><a href='login.php'>Login</a></li>";
             }
             ?>
+            <div class="search-bar">
+                <form action="search.php" method="get">
+                    <input type="text" name="query" placeholder="Search...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
 
-            <li class="menu-item">
-            <form action="search.php" method="get">
-                <input type="text" name="query" placeholder="Search...">
-                <button type="submit">Search</button>
-            </form>
-        </li>
         </ul>
 
+        
+
     </body>
+
+
 </html>
 
 <?php

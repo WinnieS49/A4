@@ -1,8 +1,10 @@
-* {
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Raleway;;
 }
 
 .menu-bar {
@@ -15,6 +17,10 @@
 
 .menu-item {
     float: left;
+}
+
+.search-bar{
+    float: right;
 }
 
 .menu-item a {
@@ -44,7 +50,7 @@
 
 .menu-item button {
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: rgb(130, 94, 31);
     color: white;
     border: none;
     border-radius: 5px;
@@ -52,7 +58,7 @@
 }
 
 .menu-item button:hover {
-    background-color: #45a049;
+    background-color: #a08f45;
 }
 
 .modellist {
