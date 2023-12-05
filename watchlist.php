@@ -59,7 +59,7 @@
     $query_str .= "WHERE W.email ='$email'";
     $res = $conn->query($query_str);
 
-    echo "<h2>Your Watchlist</h2>\n";
+    echo "<h2>My Library</h2>\n";
     echo "<ul class = modellist>\n";
     while ($row = $res->fetch_row()) {
         echo "<li>";
