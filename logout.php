@@ -3,6 +3,6 @@
     session_start();
     session_destroy();
     echo "Signed out";
-    header('Location: ' . 'showmodels.php');
+    header('Location: ' . 'homepage.php');
     exit();
 ?>
