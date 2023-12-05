@@ -21,6 +21,13 @@
             }
 
             ?>
+
+        <div class="search-bar">
+                <form action="search.php" method="get">
+                    <input type="text" name="query" placeholder="Search...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
         </ul>
 
     </body>
