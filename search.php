@@ -55,6 +55,7 @@ if (isset($_GET['query'])) {
     $sql = "SELECT * FROM video_games_2022 WHERE Title LIKE '%$searchQuery%'";
     $result = $conn->query($sql);
 
+    echo "<h2>Search Results</h2>";
     // Display the search results
     if ($result->num_rows > 0) {
         echo "<ul>";
