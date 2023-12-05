@@ -76,11 +76,11 @@
                     unset($_SESSION['callback_url']);
 
                     //redirect to the callback URL
-                    header("Location: $callback_url");
+                    header("Location: homepage.php"); //temp
                     exit();
                 } else {
                     //no callback URL redirect to showmodels.php
-                    header("Location: showmodels.php");
+                    header("Location: homepage.php");
                     exit();
                 }
             } else {
