@@ -19,8 +19,8 @@
             }else{
                 echo "<li class='menu-item'><a href='login.php'>Login</a></li>";
             }
-
             ?>
+
             <li class="menu-item">
             <form action="search.php" method="get">
                 <input type="text" name="query" placeholder="Search...">
