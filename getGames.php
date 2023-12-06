@@ -1,11 +1,27 @@
 <?php
 // Database connection code here
+$servername = "localhost";
+$username = "root"; //login with root
+$password = "";
+$dbname = "gamearchive"; //classicmodels.sql
+
+//create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+//check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+//query to get the data from products table and display on the page
+$query = "SELECT gameId, Title FROM video_games_2022";
+$result = $conn->query($query);
 
 // Fetch products based on selected category
 if (isset($_POST['category'])) {
     $category = $_POST['category'];
 
-    $query = "SELECT * FROM products";
+    $query = "SELECT * FROM video_games_2022";
 
     if (!empty($category)) {
         $query .= " WHERE category = '$category'";

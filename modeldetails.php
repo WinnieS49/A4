@@ -22,7 +22,7 @@
 
             ?>
         </ul>
-        <div class = pad>
+        <div class = 'container'>
             <?php
                 if(isset($_SERVER['HTTPS']) &&  $_SERVER['HTTPS']== "on") {
                     header("Location: http://" . $_SERVER['HTTP_HOST'] .
@@ -66,7 +66,7 @@
                 
                 echo "<form action=\"addtowatchlist.php\" method=\"post\">\n";
                 echo "<input type=\"hidden\" name=\"productCode\" value=$gmId>\n";
-                echo "<input type=\"submit\" value=\"Add To Watchlist\">\n";
+                echo "<input type=\"submit\" value=\"Add To Library\">\n";
                 echo "</form>\n";
 
                 $conn->close();

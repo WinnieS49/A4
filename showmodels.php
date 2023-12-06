@@ -28,6 +28,7 @@
                 </form>
             </div>
         </ul>
+        <div class = 'container'>
 
     </body>
 </html>
@@ -70,3 +71,4 @@
 
     $conn->close();
 ?>
+</div>

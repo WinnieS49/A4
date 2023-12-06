@@ -11,7 +11,7 @@
             <li class="menu-item"><a href="homepage.php">Home</a></li>
             <li class="menu-item"><a href="watchlist.php">Library</a></li>
             <li class="menu-item"><a href="showmodels.php">All Games</a></li>
-            <!-- check if user login, show differenrt options based on user status -->
+            <!-- check if user login, show different options based on user status -->
             <?php
             session_start();
             if (isset($_SESSION['valid_user'])){
@@ -29,6 +29,8 @@
                 </form>
             </div>
         </ul>
+
+        <div class = 'container'>
 
     </body>
 </html>
@@ -135,4 +137,5 @@
             } 
         ?>
     </form>
+</div>
 </div>

@@ -29,6 +29,7 @@
             </div>
 
         </ul>
+        <div class = 'container'>
 
         
 
@@ -72,6 +73,7 @@
         $resultWatchlist->execute();
         $resultWatchlist->bind_result($title);
     
+    
         echo "<h2>Games from Your Favourite Genre</h2>\n";
         //echo "<ul class = modellist>\n";
         while ($resultWatchlist->fetch()) {
@@ -91,7 +93,7 @@
         $resultLatest->execute();
         $resultLatest->bind_result($games);
 
-        
+        echo "<br>";
         echo "<h2>Lastest Games</h2>\n";
         //echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
@@ -102,6 +104,7 @@
             // echo " ";
             // echo "</li>\n";
         }
+        echo "</div>";
     
         $resultLatest->close();
 
@@ -114,7 +117,7 @@
         $resultLatest->bind_result($games);
 
         
-        echo "<h2>Lastest Games</h2>\n";
+        echo "<br><br><h2>Lastest Games</h2>\n";
         //echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
             echo $games;

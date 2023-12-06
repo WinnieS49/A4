@@ -28,6 +28,7 @@
                 </form>
             </div>
         </ul>
+        <div class = 'container'>
 
     </body>
 </html>
@@ -114,3 +115,4 @@
                 </form>
         <p><a href="register.php">Not registered yet. Register here.</a></p>
     </div>
+</div>

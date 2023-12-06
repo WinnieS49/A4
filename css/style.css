@@ -8,15 +8,22 @@
 }
 
 .menu-bar {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: #3a2626;
-    overflow: hidden;
+    background-color: #ffffff;
+    width:100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border-bottom: 2px solid rgb(179, 179, 179);
+    border-radius: 10px;
+    justify-content: center;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    z-index: 1;
 }
 
 .menu-item {
     float: left;
+    list-style: none;
 }
 
 .search-bar{
@@ -25,14 +32,15 @@
 
 .menu-item a {
     display: block;
-    color: white;
+    color: rgb(0, 0, 0);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 .menu-item a:hover {
-    background-color: #111;
+    background-color: #700000;
+    color: #ffffff;
 }
 
 /* Style for the search bar container */
@@ -62,25 +70,11 @@
 }
 
 .modellist {
-    padding-left: 2em;
     padding-top: 1em;
     padding-bottom: 2em;
     list-style: none;
 }
 
-.pad {
-    padding-left: 2em;
-    padding-top: 1em;
-    padding-bottom: 2em;
-    list-style: none;
-}
-
-h2 {
-    padding-left: 1.5em;
-    padding-top: 1.5em;
-}
-
-h3 {
-    padding-left: 1.5em;
-    padding-top: 1.5em;
+.container{
+    padding: 5rem;
 }
