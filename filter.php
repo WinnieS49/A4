@@ -17,15 +17,8 @@ if ($conn->connect_error) {
 if (isset($_POST['genre'])) {
     $genre = $_POST['genre'];
 
-    $query = "SELECT * FROM video_games_2022";
+    $query = "SELECT * FROM video_games_2022 WHERE FIND_IN_SET('$genre', Genre)";
 
-    if (!empty($genre)) {
-        $query .= " WHERE Genre = '$genre'";
-    }
-
-    // Execute the query and fetch products
-    // Implement your database connection and query execution code here
-    // Example:
     $result = $conn->query($query);
 
     // Display the filtered products
