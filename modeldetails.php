@@ -65,7 +65,7 @@
 
                 $username = $_SESSION['valid_user'];
 
-                $query = "SELECT library_name FROM library WHERE user_id = ?";
+                $query = "SELECT library_id, library_name FROM library WHERE user_id = ?";
                 $result = $conn->prepare($query);
                 $result->bind_param('s',$username);
                 $result->execute();
