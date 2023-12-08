@@ -60,10 +60,10 @@
         exit(); 
     } 
 
-    $email = $_SESSION['valid_user'];
+    $username = $_SESSION['valid_user'];
     $query_str = "SELECT L.library_name ";
     $query_str .= "FROM library L INNER JOIN users U ON L.user_id = U.user_id ";
-    $query_str .= "WHERE U.email ='$email'";
+    $query_str .= "WHERE U.username ='$username'";
     $res = $conn->query($query_str);?>
 
     <form action="createLibrary.php" method="post">
