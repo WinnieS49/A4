@@ -44,20 +44,20 @@
                 }
 
                 //retrieve prodCode from url
-                $gameId = $_GET['gameId'];
-                $query = "SELECT * FROM video_games_2022 WHERE gameId = ?"; 
+                $game_id = $_GET['game_id'];
+                $query = "SELECT * FROM games WHERE game_id = ?"; 
                 $result = $conn->prepare($query);
-                $result->bind_param('s', $gameId);
+                $result->bind_param('s', $game_id);
                 $result->execute();
-                $result->bind_result($gmId, $month, $day, $title, $platform, $genre, $developer, $publisher);
+                $result->bind_result($gmId, $title, $release_date, $developer, $summary, $platform, $genres, $rating, $plays, $playing, $backlogs, $wishlist, $lists, $reviews );
 
                 //display results
                 if($result->fetch()) {
                     echo "<h3>$title</h3>\n";
-                    echo "<p>Release Date: $month $day</p>\n";
-                    echo "<p>Developer: $developer</p>\n";
-                    echo "<p>Platforms: $platform</p>\n";
-                    echo "<p>Genres: $genre</p>\n";
+                    echo "<p>Release Date: $release_date </p>\n";
+                    echo "<p>Developer: $developer </p>\n";
+                    echo "<p>Platforms: $platform </p>\n";
+                    echo "<p>Genres: $genres </p>\n";
                 }
 
                 //release results
