@@ -60,13 +60,15 @@
         exit(); 
     } 
 
+    $username = $_SESSION['valid_user'];
+
     if (isset($_POST['submit'])) {
-        $name = !empty($_POST["libraryName"]) ? trim($_POST["libraryName"]) : "";
+        $libraryName = !empty($_POST["libraryName"]) ? trim($_POST["libraryName"]) : "";
         $query = "INSERT INTO library (library_name, user_id)";
 
         $query .= "VALUES (?,?)";
         $result = $conn->prepare($query);
-        $result->bind_param('ss',$name,$email);
+        $result->bind_param('ss', $libraryName, $username);
         $result->execute();
     }
 
