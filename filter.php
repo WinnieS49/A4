@@ -17,13 +17,13 @@ if ($conn->connect_error) {
 if (isset($_POST['genre'])) {
     $genre = $_POST['genre'];
 
-    $query = "SELECT * FROM games WHERE FIND_IN_SET('$genre', genres)";
+    $query = "SELECT * FROM games WHERE genres LIKE '%$genre%'";
 
     $result = $conn->query($query);
 
     // Display the filtered products
     while ($row = $result->fetch_assoc()) {
-        echo "<div>{$row['Title']}</div>";
+        echo "<div>{$row['title']}</div>";
     }
 }
 ?>
