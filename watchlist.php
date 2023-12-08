@@ -64,7 +64,15 @@
     $query_str = "SELECT L.library_name ";
     $query_str .= "FROM library L INNER JOIN users U ON L.user_id = U.user_id ";
     $query_str .= "WHERE U.email ='$email'";
-    $res = $conn->query($query_str);
+    $res = $conn->query($query_str);?>
+
+    <form action="createLibrary.php" method="post">
+        
+        <button type="submit">Create Library</button>
+    </form><br>
+
+    <?php
+
 
     echo "<h2>My Library</h2>\n";
     echo "<ul class = modellist>\n";

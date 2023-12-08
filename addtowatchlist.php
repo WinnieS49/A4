@@ -30,7 +30,7 @@
     $servername = "localhost";
     $username = "root"; //login with root
     $password = "";
-    $dbname = "classicmodels"; //classicmodels.sql
+    $dbname = "gamearchive"; //classicmodels.sql
     
     //create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
