@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 if (isset($_POST['genre'])) {
     $genre = $_POST['genre'];
 
-    $query = "SELECT * FROM games WHERE FIND_IN_SET('$genres', Genre)";
+    $query = "SELECT * FROM games WHERE FIND_IN_SET('$genre', genres)";
 
     $result = $conn->query($query);
 
