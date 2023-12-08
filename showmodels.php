@@ -64,7 +64,7 @@
     //display the data get from query 
     while ($row = $result->fetch_row()) {
         echo "<li>";
-        echo "<a href=\"modeldetails.php?gameId=$row[0]\">$row[1]</a>";
+        echo "<a href=\"modeldetails.php?game_id=$row[0]\">$row[1]</a>";
         echo "</li>\n";
     };
     echo "</ul>";

@@ -52,7 +52,7 @@
                 $result->bind_result($gmId, $title, $release_date, $developer, $summary, $platform, $genres, $rating, $plays, $playing, $backlogs, $wishlist, $lists, $reviews );
 
                 //display results
-                if($result->fetch()) {
+                if($result->fetch()){
                     echo "<h3>$title</h3>\n";
                     echo "<p>Release Date: $release_date </p>\n";
                     echo "<p>Developer: $developer </p>\n";
@@ -63,11 +63,35 @@
                 //release results
                 $result->free_result();
 
-                
-                echo "<form action=\"addtowatchlist.php\" method=\"post\">\n";
-                echo "<input type=\"hidden\" name=\"productCode\" value=$gmId>\n";
+                $username = $_SESSION['valid_user'];
+
+                $query = "SELECT library_name FROM library WHERE user_id = ?";
+                $result = $conn->prepare($query);
+                $result->bind_param('s',$username);
+                $result->execute();
+                $res = $result->get_result();
+
+                // Check if the query was successful
+                if ($result) {
+                    echo "<form action=\"addtowatchlist.php\" method=\"post\">\n"; 
+                    echo "<input type=\"hidden\" name=\"game_id\" value=$gmId>\n";
+                    echo "<label for=\"libraryName\">Select Library:</label>\n";
+                    echo "<select name=\"libraryName\" id=\"libraryName\">\n";
+
+                    // Loop through the result set to populate the dropdown
+                    while ($row = $res->fetch_assoc()) {
+                        $libraryId = $row['library_id'];
+                        $libraryName = $row['library_name'];
+                        echo "<option value=\"$libraryId\">$libraryName</option>\n";
+                    }
+                }
+
+                echo "</select>\n";
                 echo "<input type=\"submit\" value=\"Add To Library\">\n";
                 echo "</form>\n";
+
+                // Free result set
+                $res->free();
 
                 $conn->close();
             ?>
