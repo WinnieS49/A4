@@ -62,7 +62,7 @@
 
     $username = $_SESSION['valid_user'];
     $query_str = "SELECT L.library_name ";
-    $query_str .= "FROM library L INNER JOIN users U ON L.user_id = U.user_id ";
+    $query_str .= "FROM library L INNER JOIN users U ON L.user_id = U.username ";
     $query_str .= "WHERE U.username ='$username'";
     $res = $conn->query($query_str);?>
 
@@ -75,7 +75,7 @@
     echo "<h2>My Library</h2>\n";
     echo "<ul class = modellist>\n";
     while ($row = $res->fetch_row()) {
-        echo "<li>{$row['library_name']}</li>\n";
+        echo "<li>{$row[0]}</li>\n";
     };
     echo "</ul>\n";
 

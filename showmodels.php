@@ -54,7 +54,7 @@
     }
 
     //query to get the data from products table and display on the page
-    $query = "SELECT gameId, Title FROM video_games_2022";
+    $query = "SELECT game_id, title FROM games";
     $result = $conn->query($query);
 
     echo "<h2>All Games</h2>";
