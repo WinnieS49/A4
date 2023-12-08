@@ -58,11 +58,11 @@
         $_SESSION['callback_url'] = 'watchlist.php';
         header('Location: ' . 'login.php');
         exit(); 
-    } 
+    }
 
     $username = $_SESSION['valid_user'];
 
-    if (isset($_POST['submit'])) {
+    if (isset($_POST['CreateLibrary'])) {
         $libraryName = !empty($_POST["libraryName"]) ? trim($_POST["libraryName"]) : "";
         $query = "INSERT INTO library (library_name, user_id)";
 
@@ -70,17 +70,10 @@
         $result = $conn->prepare($query);
         $result->bind_param('ss', $libraryName, $username);
         $result->execute();
+        echo "Created library";
     }
 
-    $email = $_SESSION['valid_user'];
-    $query_str = "SELECT L.library_name ";
-    $query_str .= "FROM library L INNER JOIN users U ON L.user_id = U.user_id ";
-    $query_str .= "WHERE U.email ='$email'";
-    $res = $conn->query($query_str);
-
     echo "<h2>Create Library</h2>\n";
-
-    $res->free_result();
     $conn->close();
 ?>
 
@@ -88,6 +81,6 @@
     <label for="libraryName">Library Name:</label>
     <input type="text" id="libraryName" name="libraryName" required> <br>   
         
-    <button type="submit">Create Library</button>
+    <button type="submit" name = "CreateLibrary">Create Library</button>
 </form><br>
 </div>
