@@ -46,9 +46,9 @@
 
 	if (isset($_SESSION['valid_user'])) { //if logged in
         $username = $_SESSION['valid_user'];
-		$query = "SELECT COUNT(*) FROM watchlist WHERE game_id=? AND username=?";
+		$query = "SELECT COUNT(*) FROM library WHERE game_id=? AND username=?";
 		$result = $conn->prepare($query);
-		$result->bind_param('ss', $prodCode, $username);
+		$result->bind_param('ss', $game_id, $username);
 		$result->execute();
 		$result->bind_result($count);
         //check if it exists in watchlist
