@@ -44,7 +44,7 @@
     $servername = "localhost";
     $username = "root"; //login with root
     $password = "";
-    $dbname = "classicmodels"; //classicmodels.sql
+    $dbname = "gamearchive"; //gamearchive.sql
     
     //create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
