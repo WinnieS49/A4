@@ -64,25 +64,18 @@
     $query_str = "SELECT L.library_name ";
     $query_str .= "FROM library L INNER JOIN users U ON L.user_id = U.user_id ";
     $query_str .= "WHERE U.email ='$email'";
-    $res = $conn->query($query_str);?>
+    $res = $conn->query($query_str);
 
-    <form action="createLibrary.php" method="post">
-        
-        <button type="submit">Create Library</button>
-    </form><br>
-
-    <?php
-    echo "<h2>My Library</h2>\n";
-    echo "<ul class = modellist>\n";
-    // while ($row = $res->fetch_row()) {
-    //     echo "<li>";
-    //     echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
-    //     echo " ";
-    //     echo "</li>\n";
-    // };
-    echo "</ul>\n";
+    echo "<h2>Create Library</h2>\n";
 
     $res->free_result();
     $conn->close();
 ?>
+
+<form action="createLibrary.php" method="post">
+    <label for="libraryName">Library Name:</label>
+    <input type="text" id="libraryName" name="libraryName" required> <br>   
+        
+    <button type="submit">Create Library</button>
+</form><br>
 </div>
