@@ -41,21 +41,21 @@
     }
 
     //get product code to enter
-    $productCode = !empty($_POST['productCode']) ? $_POST['productCode'] : "";
-    $email = "";
+    $game_id = !empty($_POST['game_id']) ? $_POST['game_id'] : "";
+    $username = "";
 
 	if (isset($_SESSION['valid_user'])) { //if logged in
-        $email = $_SESSION['valid_user'];
-		$query = "SELECT COUNT(*) FROM watchlist WHERE productCode=? AND email=?";
+        $username = $_SESSION['valid_user'];
+		$query = "SELECT COUNT(*) FROM watchlist WHERE game_id=? AND username=?";
 		$result = $conn->prepare($query);
-		$result->bind_param('ss', $prodCode, $email);
+		$result->bind_param('ss', $prodCode, $username);
 		$result->execute();
 		$result->bind_result($count);
         //check if it exists in watchlist
 	    if($result->fetch() && $count == 0){
             //add to watchlist table
-            $query = "INSERT INTO watchlist (email, productCode) VALUES (?, ?)";
-            $values = [$email, $productCode];
+            $query = "INSERT INTO library (user_id, game_id) VALUES (?, ?)";
+            $values = [$username, $game_id];
         
             $result->close();
             $res = $conn->prepare($query);
