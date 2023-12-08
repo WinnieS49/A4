@@ -8,8 +8,9 @@
     </head>
     <body>
         <ul class="menu-bar">
-            <li class="menu-item"><a href="showmodels.php"> All Models</a></li>
-            <li class="menu-item"><a href="watchlist.php">Watchlist</a></li>
+            <li class="menu-item"><a href="homepage.php">Home</a></li>
+            <li class="menu-item"><a href="watchlist.php">Library</a></li>
+            <li class="menu-item"><a href="showmodels.php">All Games</a></li>
             <!-- check if user login, show differenrt options based on user status -->
             <?php
             session_start();
@@ -21,6 +22,7 @@
 
             ?>
         </ul>
+        <div class = 'container'>
 
     </body>
 </html>
@@ -42,21 +44,21 @@
 
     //get product code to enter
     $game_id = !empty($_POST['game_id']) ? $_POST['game_id'] : "";
-    $library_id = !empty($_POST['library_id']) ? $_POST['library_id'] : "";
+    $library_id = !empty($_POST['libraryName']) ? $_POST['libraryName'] : "";
     $username = "";
 
 	if (isset($_SESSION['valid_user'])) { //if logged in
         $username = $_SESSION['valid_user'];
-		$query = "SELECT COUNT(*) FROM library WHERE game_id=? AND username=?";
+		$query = "SELECT COUNT(*) FROM library WHERE library_id=? AND game_id = ? AND user_id=?";
 		$result = $conn->prepare($query);
-		$result->bind_param('ss', $game_id, $username);
+		$result->bind_param('sss',$library_id, $game_id, $username);
 		$result->execute();
 		$result->bind_result($count);
         //check if it exists in watchlist
 	    if($result->fetch() && $count == 0){
             //add to watchlist table
-            $query = "INSERT INTO library (user_id, game_id) VALUES (?, ?)";
-            $values = [$username, $game_id];
+            $query = "INSERT INTO library (library_id, game_id) VALUES (?, ?)";
+            $values = [$library_id, $game_id];
         
             $result->close();
             $res = $conn->prepare($query);
@@ -73,3 +75,4 @@
 
 
 ?>
+</div>
