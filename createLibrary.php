@@ -60,6 +60,16 @@
         exit(); 
     } 
 
+    if (isset($_POST['submit'])) {
+        $name = !empty($_POST["libraryName"]) ? trim($_POST["libraryName"]) : "";
+        $query = "INSERT INTO library (library_name, user_id)";
+
+        $query .= "VALUES (?,?)";
+        $result = $conn->prepare($query);
+        $result->bind_param('ss',$name,$email);
+        $result->execute();
+    }
+
     $email = $_SESSION['valid_user'];
     $query_str = "SELECT L.library_name ";
     $query_str .= "FROM library L INNER JOIN users U ON L.user_id = U.user_id ";
