@@ -11,7 +11,7 @@
 <label for="genre">Select Genre:</label>
 <select id="genre" name="genre" onchange="filterGenres()">
     <option value="">All Genres</option>
-    <option value="'Puzzle'">Puzzle</option>
+    <option value="Puzzle">Puzzle</option>
     <!-- <option value="Clothing">Clothing</option> -->
     <!-- Add more categories as needed -->
 </select>
