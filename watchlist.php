@@ -74,12 +74,9 @@
     <?php
     echo "<h2>My Library</h2>\n";
     echo "<ul class = modellist>\n";
-    // while ($row = $res->fetch_row()) {
-    //     echo "<li>";
-    //     echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
-    //     echo " ";
-    //     echo "</li>\n";
-    // };
+    while ($row = $res->fetch_row()) {
+        echo "<li>{$row['library_name']}</li>\n";
+    };
     echo "</ul>\n";
 
     $res->free_result();
