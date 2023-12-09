@@ -49,15 +49,15 @@
 
 	if (isset($_SESSION['valid_user'])) { //if logged in
         $username = $_SESSION['valid_user'];
-		$query = "SELECT COUNT(*) FROM library WHERE library_id=? AND game_id = ? AND user_id=?";
+		$query = "SELECT COUNT(*) FROM librarylist WHERE library_id=? AND game_id = ?";
 		$result = $conn->prepare($query);
-		$result->bind_param('sss',$library_id, $game_id, $username);
+		$result->bind_param('ss',$library_id, $game_id);
 		$result->execute();
 		$result->bind_result($count);
         //check if it exists in watchlist
 	    if($result->fetch() && $count == 0){
             //add to watchlist table
-            $query = "INSERT INTO library (library_id, game_id) VALUES (?, ?)";
+            $query = "INSERT INTO librarylist (library_id, game_id) VALUES (?, ?)";
             $values = [$library_id, $game_id];
         
             $result->close();
