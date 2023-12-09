@@ -44,7 +44,7 @@
 
     //get product code to enter
     $game_id = !empty($_POST['game_id']) ? $_POST['game_id'] : "";
-    $library_id = !empty($_POST['libraryName']) ? $_POST['libraryName'] : "";
+    $library_id = !empty($_POST['library_id']) ? $_POST['library_id'] : "";
     $username = "";
 
 	if (isset($_SESSION['valid_user'])) { //if logged in
