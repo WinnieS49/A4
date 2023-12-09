@@ -75,8 +75,8 @@
                 if ($result) {
                     echo "<form action=\"addtowatchlist.php\" method=\"post\">\n"; 
                     echo "<input type=\"hidden\" name=\"game_id\" value=$gmId>\n";
-                    echo "<label for=\"libraryID\">Select Library:</label>\n";
-                    echo "<select name=\"libraryID\" id=\"libraryID\">\n";
+                    echo "<label for=\"library_id\">Select Library:</label>\n";
+                    echo "<select name=\"library_id\" id=\"library_id\">\n";
 
                     // Loop through the result set to populate the dropdown
                     while ($row = $res->fetch_assoc()) {
