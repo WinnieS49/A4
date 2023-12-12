@@ -6,14 +6,16 @@
 <script>
     var currentPage = 1; //initialize currentPage to 1
 
-    function filterData() {
+    function filterData() { //filter data based on selected dropdowns
         var genre = $("#genre").val();
         var platform = $("#platform").val();
         var year = $("#year").val();
         var rating = $("#rating").val();
     
+        //write to console
         console.log("Filter Data - Genre: " + genre + ", Platform: " + platform + ", Year: " + year + ", Rating: " + rating, "Page: "+ currentPage);
     
+        //ajax request to filter.php
         $.ajax({
             type: "POST",
             url: "filter.php",
@@ -33,16 +35,16 @@
             currentPage++;
         }
 
-        filterData(currentPage); // Update the filtered data based on the new page
+        filterData(currentPage); // update the filtered data based on the new page
     }
 
 
-    // Previous page button click event
+    // previous page button click event
     $('#prevPage').on('click', function () {
         changePage('prev');
     });
 
-    // Next page button click event
+    // next page button click event
     $('#nextPage').on('click', function () {
         changePage('next');
     });
@@ -129,6 +131,7 @@
 
 
     <div id="filtered-data-container">
+        <!-- display results here -->
     </div>
 
     <div id="paginationControls">

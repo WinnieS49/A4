@@ -296,3 +296,21 @@ body {
     height: 40px; /* Set a fixed height for the input */
     overflow: hidden; /* Hide overflowing content */
 }
+
+/* Button styles in the container for search links */
+.pagination a.pagination-link {
+    padding: 10px;
+    margin: 10px;
+    background-color: #3264a5;
+    color: white;
+    border: none;
+    text-decoration-line: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a.pagination-link:hover {
+    background-color: #1e4285;
+}

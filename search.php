@@ -3,6 +3,8 @@
 <?php include('include/functions.php'); ?>
 <div class = 'container'>
 
+<h2>Search Results</h2><br>
+
 <?php
     if (isset($_GET['query'])) {
         $searchQuery = $_GET['query'];
@@ -23,12 +25,11 @@
         $sql = "SELECT * FROM games WHERE title LIKE '%$searchQuery%' LIMIT $startIndex, $gamesPerPage";
         $result = $conn->query($sql);
 
-        echo "<h2>Search Results</h2>";
         // Display the search results
         if ($result->num_rows > 0) {
             echo "<ul>";
             while ($row = $result->fetch_assoc()) {
-                echo "<a href=\"search.php?game_id={$row['game_id']}\">{$row['title']}</a><br>";
+                echo "<div><a class='filtered-game-link' href=\"search.php?game_id={$row['game_id']}\">{$row['title']}</a></div><br>";
                 // Display other relevant information as needed
             }
             echo "</ul>";
@@ -41,11 +42,12 @@
 
         echo "<div class='pagination'>";
         if ($prevPage > 0) {
-            echo "<a href='search.php?page=$prevPage&query=$searchQuery'>Previous</a> ";
+            echo "<a class='pagination-link' href='search.php?page=$prevPage&query=$searchQuery'>Previous</a> ";
         }
         echo "<span> Page $currentPage </span>";
+
         if ($nextPage * $gamesPerPage > $result->num_rows) {
-            echo "<a href='search.php?page=$nextPage&query=$searchQuery'>Next</a>";
+            echo "<a class='pagination-link' href='search.php?page=$nextPage&query=$searchQuery'>Next</a>";
         }
         echo "</div>";
 
