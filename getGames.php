@@ -2,9 +2,61 @@
 <?php include('include/header.php'); ?>
 <?php include('include/functions.php'); ?>
 
-<? redirectToHttp(); ?>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+    var currentPage = 1; //initialize currentPage to 1
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    function filterData() {
+        var genre = $("#genre").val();
+        var platform = $("#platform").val();
+        var year = $("#year").val();
+        var rating = $("#rating").val();
+    
+        console.log("Filter Data - Genre: " + genre + ", Platform: " + platform + ", Year: " + year + ", Rating: " + rating, "Page: "+ currentPage);
+    
+        $.ajax({
+            type: "POST",
+            url: "filter.php",
+            data: { genre: genre, platform: platform, year: year, rating: rating, page: currentPage},
+            success: function (response) {
+                $("#filtered-data-container").html(response);
+
+            }
+        });
+    }
+
+
+    function changePage(direction) {
+        if (direction === 'prev' && currentPage > 1) {
+            currentPage--;
+        } else if (direction === 'next') {
+            currentPage++;
+        }
+
+        filterData(currentPage); // Update the filtered data based on the new page
+    }
+
+
+    // Previous page button click event
+    $('#prevPage').on('click', function () {
+        changePage('prev');
+    });
+
+    // Next page button click event
+    $('#nextPage').on('click', function () {
+        changePage('next');
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        filterData(currentPage);
+    });
+</script>
+
+
+<?redirectToHttp();?>
+
 <div class = 'container'>
     <h2>Browse and Filter Games</h2><br>
     <label for="genre">Select Genre:</label>
@@ -75,27 +127,15 @@
 
     <button onclick="filterData()">Apply Filter</button>
 
+
     <div id="filtered-data-container">
     </div>
 
-    <script>
-        function filterData() {
-            var genre = $("#genre").val();
-            var platform = $("#platform").val();
-            var year = $("#year").val();
-            var rating = $("#rating").val();
+    <div id="paginationControls">
+        <button id="prevPage" onclick="changePage('prev')">Previous</button>
+        <button id="nextPage" onclick="changePage('next')">Next</button>
+    </div>
 
-            console.log("Filter Data - Genre: " + genre + ", Platform: " + platform + ", Year: " + year + ", Rating: " + rating);
+    
 
-            $.ajax({
-                type: "POST",
-                url: "filter.php",
-                data: { genre: genre, platform: platform, year: year, rating: rating },
-                success: function (response) {
-                    $("#filtered-data-container").html(response);
-                }
-            });
-        }
-        
-    </script>
 </div>
