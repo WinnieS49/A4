@@ -1,57 +1,15 @@
-<!-- navigation bar -->
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Classic Models</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <ul class="menu-bar">
-            <li class="menu-item"><a href="homepage.php">Home</a></li>
-            <li class="menu-item"><a href="watchlist.php">Library</a></li>
-            <li class="menu-item"><a href="showmodels.php">All Games</a></li>
-            <!-- check if user login, show differenrt options based on user status -->
-            <?php
-            session_start();
-            if (isset($_SESSION['valid_user'])){
-                echo "<li class='menu-item'><a href='logout.php'>Logout</a></li>";
-            }else{
-                echo "<li class='menu-item'><a href='login.php'>Login</a></li>";
-            }
+<!-- include header and functions -->
+<?php include('include/header.php'); ?>
+<?php include('include/functions.php'); ?>
 
-            ?>
-            <div class="search-bar">
-                <form action="search.php" method="get">
-                    <input type="text" name="query" placeholder="Search...">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-        </ul>
-        <div class = 'container'>
+<div class = 'container'>
 
-    </body>
-</html>
 <?php
-    if($_SERVER['HTTPS'] != "on") {
-        header("Location: https://" . $_SERVER['HTTP_HOST'] .
-            $_SERVER['REQUEST_URI']);
-        exit();
-    }
+    //secure connection
+    redirectToHttps();
 
-    $servername = "localhost";
-    $username = "root"; //login with root
-    $password = "";
-    $dbname = "gamearchive"; //classicmodels.sql
-    $callback_url = "";
-    
     //create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    
-    //check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = connectToDatabase();
 
     //check form submission
     if (!isset($_POST['submit'])) {
@@ -59,7 +17,8 @@
         $pass = "";
     
     } 
-    //retrieve email and password submission
+
+    //retrieve email and password from submission
     else {
         $username = !empty($_POST["username"]) ? trim($_POST["username"]) : "";
         $password = !empty($_POST["password"]) ? trim($_POST["password"]) : "";
@@ -79,18 +38,7 @@
                 echo "You have logged in.";
 
                 //check if there is a callback URL
-                if (isset($_SESSION['callback_url'])) {
-                    $callback_url = $_SESSION['callback_url'];
-                    unset($_SESSION['callback_url']);
-
-                    //redirect to the callback URL
-                    header("Location: homepage.php"); //temp
-                    exit();
-                } else {
-                    //no callback URL redirect to showmodels.php
-                    header("Location: homepage.php");
-                    exit();
-                }
+                redirectToCallback();
             } else {
                 echo "Incorrect password.";
             }
@@ -102,7 +50,7 @@
 
 ?>
 
-<h2>Login</h2>
+<h2>Login</h2><br>
     <?php if(!empty($message)) echo '<p>' . $message . '</p>' ?>
 
     <div class = pad>

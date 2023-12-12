@@ -1,60 +1,14 @@
-<!-- navigation bar -->
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Classic Models</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <ul class="menu-bar">
-            <li class="menu-item"><a href="homepage.php">Home</a></li>
-            <li class="menu-item"><a href="watchlist.php">Library</a></li>
-            <li class="menu-item"><a href="showmodels.php">All Games</a></li>
-            
-            <!-- check if user login, show differenrt options based on user status -->
-            <?php
-            session_start();
-            if (isset($_SESSION['valid_user'])){
-                echo "<li class='menu-item'><a href='logout.php'>Logout</a></li>";
-            }else{
-                echo "<li class='menu-item'><a href='login.php'>Login</a></li>";
-            }
-            ?>
-            <div class="search-bar">
-                <form action="search.php" method="get">
-                    <input type="text" name="query" placeholder="Search...">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
+<!-- include header and functions -->
+<?php include('include/header.php'); ?>
+<?php include('include/functions.php'); ?>
 
-        </ul>
-        <div class = 'container'>
-
-        
-
-    </body>
-
-
-</html>
-
+<div class = 'container'>
 <?php
-
-    $servername = "localhost";
-    $username = "root"; //login with root
-    $password = "";
-    $dbname = "gamearchive"; //classicmodels.sql
-    
     //create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    
-    //check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = connectToDatabase();
 
-    //get product code to enter
-    $productCode = !empty($_POST['productCode']) ? $_POST['productCode'] : "";
+    redirectToHttp();
+
     $username = "";
 
 	if (isset($_SESSION['valid_user'])) { //if logged in
@@ -67,70 +21,72 @@
         $resultUser->fetch();
         $resultUser->close();
          
-        $queryWatchlist = "SELECT Title FROM video_games_2022 WHERE Genre = ?";
+        $queryWatchlist = "SELECT game_id, title FROM games WHERE genres LIKE ? LIMIT 10";
+        $pattern = '%'. $genreUser . '%';
+        
         $resultWatchlist = $conn->prepare($queryWatchlist);
-        $resultWatchlist->bind_param('s', $genreUser);
+        $resultWatchlist->bind_param('s', $pattern);
         $resultWatchlist->execute();
-        $resultWatchlist->bind_result($title);
-    
+        $resultWatchlist->bind_result($game_id, $title);
     
         echo "<h2>Games from Your Favourite Genre</h2>\n";
-        //echo "<ul class = modellist>\n";
+        echo "<ul class = modellist>\n";
         while ($resultWatchlist->fetch()) {
-            echo $title;
             echo "<br>";
-            // echo "<li>";
-            // echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
-            // echo " ";
-            // echo "</li>\n";
+            echo "<li>";
+            echo "<a href=\"gamedetails.php?game_id=$game_id\">$title</a>";
+            echo " ";
+            echo "</li>\n";
         }
         $resultWatchlist->close();
 
-        $selectedMonth = 'December';
-        $queryLatest = "SELECT Title FROM video_games_2022 WHERE Month = ?";
-        $resultLatest = $conn->prepare($queryLatest);
-        $resultLatest->bind_param('s', $selectedMonth);
-        $resultLatest->execute();
-        $resultLatest->bind_result($games);
+        $selectedYear = '2023';
+        $queryLatest = "SELECT game_id, title FROM games WHERE release_date LIKE ? LIMIT 10";
+        $pattern = '%' . $selectedYear . '%';
 
-        echo "<br>";
+        $resultLatest = $conn->prepare($queryLatest);
+        $resultLatest->bind_param('s', $pattern);
+        $resultLatest->execute();
+        $resultLatest->bind_result($game_id, $title);
+
+        echo "<br><br>";
         echo "<h2>Lastest Games</h2>\n";
-        //echo "<ul class = modellist>\n";
+        echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
-            echo $games;
             echo "<br>";
-            // echo "<li>";
-            // echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
-            // echo " ";
-            // echo "</li>\n";
+            echo "<li>";
+            echo "<a href=\"gamedetails.php?game_id=$game_id\">$title</a>";
+            echo " ";
+            echo "</li>\n";
         }
-        echo "</div>";
+        
     
         $resultLatest->close();
 
     }else{
-        $selectedMonth = 'December';
-        $queryLatest = "SELECT Title FROM video_games_2022 WHERE Month = ?";
-        $resultLatest = $conn->prepare($queryLatest);
-        $resultLatest->bind_param('s', $selectedMonth);
-        $resultLatest->execute();
-        $resultLatest->bind_result($games);
+        $selectedYear = '2023';
+        $queryLatest = "SELECT game_id, title FROM games WHERE release_date LIKE ? LIMIT 10";
+        $pattern = '%' . $selectedYear . '%';
 
-        
-        echo "<br><br><h2>Lastest Games</h2>\n";
-        //echo "<ul class = modellist>\n";
+        $resultLatest = $conn->prepare($queryLatest);
+        $resultLatest->bind_param('s', $pattern);
+        $resultLatest->execute();
+        $resultLatest->bind_result($game_id, $title);
+
+        echo "<br>";
+        echo "<h2>Lastest Games</h2>\n";
+        echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
-            echo $games;
             echo "<br>";
-            // echo "<li>";
-            // echo "<a href=\"modeldetails.php?productCode=$row[0]\">$row[1]</a>";
-            // echo " ";
-            // echo "</li>\n";
+            echo "<li>";
+            echo "<a href=\"gamedetails.php?game_id=$game_id\">$title</a>";
+            echo " ";
+            echo "</li>\n";
         }
+        
     
         $resultLatest->close();
     }
 
-
-
 ?>
+</div>

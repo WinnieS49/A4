@@ -1,27 +1,27 @@
+<?php include('include/header.php'); ?>
+<?php include('include/functions.php'); ?>
+
+<div class = 'container'>
+
 <?php
-    session_start();
+    //secure connection
+    redirectToHttps();
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "gamearchive";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    //connect
+    $conn = connectToDatabase();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Retrieve user input
+        //retrieve user input
         $username = $_POST["username"];
         $name = $_POST["name"];
-        $email = $_POST["email"];
+        $password = $_POST["password"];
         $phoneNumber = $_POST["phoneNumber"];
+        $genre = $_POST["genre"];
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = "UPDATE users SET name=?, email=?, phoneNumber=? WHERE username=?";
+        $query = "UPDATE users SET name=?, password =?, phoneNumber=?, preferredGenre =? WHERE username=?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssss", $name, $email, $phoneNumber, $username);
+        $stmt->bind_param("sssss", $name, $hashedPassword, $phoneNumber, $genre, $username);
         $stmt->execute();
         $stmt->close();
 
@@ -31,3 +31,4 @@
 
     $conn->close();
 ?>
+</div>

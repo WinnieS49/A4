@@ -1,61 +1,15 @@
-<!-- navigation bar -->
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Classic Models</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <ul class="menu-bar">
-            <li class="menu-item"><a href="homepage.php">Home</a></li>
-            <li class="menu-item"><a href="watchlist.php">Library</a></li>
-            <li class="menu-item"><a href="showmodels.php">All Games</a></li>
-            <!-- check if user login, show different options based on user status -->
-            <?php
-            session_start();
-            if (isset($_SESSION['valid_user'])){
-                echo "<li class='menu-item'><a href='logout.php'>Logout</a></li>";
-            }else{
-                echo "<li class='menu-item'><a href='login.php'>Login</a></li>";
-            }
+<!-- include header and functions -->
+<?php include('include/header.php'); ?>
+<?php include('include/functions.php'); ?>
 
-            ?>
-            <div class="search-bar">
-                <form action="search.php" method="get">
-                    <input type="text" name="query" placeholder="Search...">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-        </ul>
-        <div class = 'container'>
-
-    </body>
-</html>
+<div class = 'container'>
 
 <?php
-    if($_SERVER['HTTPS'] != "on") {
-            header("Location: https://" . $_SERVER['HTTP_HOST'] .
-                $_SERVER['REQUEST_URI']);
-            exit();
-    }
-
-
-    $servername = "localhost";
-    $username = "root"; //login with root
-    $password = "";
-    $dbname = "gamearchive"; //gamearchive.sql
-    
-    //create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    
-    //check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    redirectToHttp();
+    $conn = connectToDatabase();
 
     if(!isset($_SESSION['valid_user'])) { //not logged in
-        $_SESSION['callback_url'] = 'watchlist.php';
+        $_SESSION['callback_url'] = 'mylibrary.php';
         header('Location: ' . 'login.php');
         exit(); 
     }
@@ -64,22 +18,35 @@
 
     if (isset($_POST['CreateLibrary'])) {
         $libraryName = !empty($_POST["libraryName"]) ? trim($_POST["libraryName"]) : "";
-        $query = "INSERT INTO library (library_name, user_id)";
+        
+        //check if the library name already exists for the user
+        $queryCheck = "SELECT COUNT(*) FROM library WHERE library_name = ? AND user_id = ?";
+        $resultCheck = $conn->prepare($queryCheck);
+        $resultCheck->bind_param('ss', $libraryName, $username);
+        $resultCheck->execute();
+        $resultCheck->bind_result($libraryCount);
+        $resultCheck->fetch();
+        $resultCheck->close();
 
-        $query .= "VALUES (?,?)";
-        $result = $conn->prepare($query);
-        $result->bind_param('ss', $libraryName, $username);
-        $result->execute();
-        echo "Created library";
+        if ($libraryCount > 0) {
+            echo "Library with the same name already exists. Please choose a different name.";
+        } else {
+            //insert the new library
+            $queryInsert = "INSERT INTO library (library_name, user_id) VALUES (?, ?)";
+            $resultInsert = $conn->prepare($queryInsert);
+            $resultInsert->bind_param('ss', $libraryName, $username);
+            $resultInsert->execute();
+            echo "Created library.";
+        }
     }
 
-    echo "<h2>Create Library</h2>\n";
+    echo "<h2>Create Library</h2><br>";
     $conn->close();
 ?>
 
 <form action="createLibrary.php" method="post">
     <label for="libraryName">Library Name:</label>
-    <input type="text" id="libraryName" name="libraryName" required> <br>   
+    <input type="text" id="libraryName" name="libraryName" required><br>   
         
     <button type="submit" name = "CreateLibrary">Create Library</button>
 </form><br>
