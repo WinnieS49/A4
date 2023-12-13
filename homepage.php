@@ -21,33 +21,35 @@
         $resultUser->fetch();
         $resultUser->close();
          
-        $queryWatchlist = "SELECT game_id, title FROM games WHERE genres LIKE ? LIMIT 10";
+        $queryWatchlist = "SELECT game_id, title, summary, platform, release_date, genres, rating FROM games WHERE genres LIKE ? LIMIT 10";
         $pattern = '%'. $genreUser . '%';
         
         $resultWatchlist = $conn->prepare($queryWatchlist);
         $resultWatchlist->bind_param('s', $pattern);
         $resultWatchlist->execute();
-        $resultWatchlist->bind_result($game_id, $title);
+        $resultWatchlist->bind_result($game_id, $title, $summary, $platform, $release_date, $genres, $rating);
     
         echo "<h2>Games from Your Favourite Genre</h2>\n";
-        echo "<ul class = modellist>\n";
+        echo "<div class = 'card-container'>\n";
         while ($resultWatchlist->fetch()) {
-            echo "<br>";
-            echo "<li>";
-            echo "<a href=\"gamedetails.php?game_id=$game_id\">$title</a>";
-            echo " ";
-            echo "</li>\n";
+            echo "<div class='card'>";
+            echo "<h3>$title</h3>";
+            echo "<p class='description'>$summary</p>";
+            echo "<p>Release Date: $release_date</p>";
+            echo "<p>Genres: $genres</p>";
+            echo "<a href=\"gamedetails.php?game_id=$game_id\">View Game Details </a>";
+            echo "</div>";
         }
         $resultWatchlist->close();
 
         $selectedYear = '2023';
-        $queryLatest = "SELECT game_id, title FROM games WHERE release_date LIKE ? LIMIT 10";
+        $queryLatest = "SELECT game_id, title, summary, platform, genres, rating FROM games WHERE release_date LIKE ? LIMIT 10";
         $pattern = '%' . $selectedYear . '%';
 
         $resultLatest = $conn->prepare($queryLatest);
         $resultLatest->bind_param('s', $pattern);
         $resultLatest->execute();
-        $resultLatest->bind_result($game_id, $title);
+        $resultLatest->bind_result($game_id, $title, $summary, $platform, $genres, $rating);
 
         echo "<br><br>";
         echo "<h2>Lastest Games</h2>\n";

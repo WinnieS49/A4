@@ -156,7 +156,7 @@ body {
 
 /* Style for the links in the filtered games section */
 .filtered-game-link {
-    display: block;
+    display:block;
     padding: 15px;
     background-color: #1b2838;
     color: #fff;
@@ -313,4 +313,122 @@ body {
 
 .pagination a.pagination-link:hover {
     background-color: #1e4285;
+}
+
+/* Filter game page style*/
+
+.filter-form{
+    padding: 3em;
+}
+
+.filter-container {
+    padding: 4rem;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.filter-container button {
+    padding: 10px;
+    background-color: #3264a5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-container button:hover {
+    background-color: #1e4285;
+}
+
+.filter-container select {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2c3b4f;
+    color: #fff;
+}
+
+.filter-container label {
+    margin-right: 10px;
+    color: #fff;
+}
+.filter-container a:hover {
+    background-color: #1e4285;
+}
+
+/* Style for the current page number */
+.filter-container span {
+    display: inline-block;
+    padding: 10px;
+    background-color: #2c3b4f;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.filter-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2c3b4f;
+    color: #fff;
+    height: 40px; /* Set a fixed height for the dropdown */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+/* Style for the dropdown options */
+.filter-container select option {
+    background-color: #1b2838;
+    color: #fff;
+}
+
+
+.filter-form {
+    width: 100%;
+    max-width: 400px; /* Adjust the width as needed */
+    margin-bottom: 20px; /* Add margin between sections */
+}
+
+
+#filtered-data-container{
+
+    width: 100%;
+    max-width: 800px; /* Adjust the width as needed */
+}
+
+/* Add your card styling here */
+.card-container {
+    display: contents;
+    flex-wrap: wrap;
+    flex-direction: row;
+    font-size: 14px;
+}
+
+.card {
+    background-color: #2c3b4f;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 1em;
+    width: 70%;
+}
+
+.card a {
+    display: block;
+    margin-top: 8px;
+    text-decoration: none;
+    color: #73a2df;
+}
+
+.card .description {
+    max-height: 3em; /* Three lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 3em;
+    white-space: nowrap;
+
 }
