@@ -58,7 +58,7 @@
             echo "<div class='card'>";
             echo "<h3>$title</h3>";
             echo "<p class='description'>$summary</p>";
-            echo "<p>Release Date: $release_date</p>";
+            echo "<p>Game Platform: $platform</p>";
             echo "<p>Genres: $genres</p>";
             echo "<a href=\"gamedetails.php?game_id=$game_id\">View Game Details </a>";
             echo "</div>";
@@ -75,17 +75,19 @@
         $resultLatest = $conn->prepare($queryLatest);
         $resultLatest->bind_param('s', $pattern);
         $resultLatest->execute();
-        $resultLatest->bind_result($game_id, $title);
+        $resultLatest->bind_result($game_id, $title, $summary, $platform, $genres, $rating);
 
         echo "<br>";
         echo "<h2>Lastest Games</h2>\n";
         echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
-            echo "<br>";
-            echo "<li>";
-            echo "<a href=\"gamedetails.php?game_id=$game_id\">$title</a>";
-            echo " ";
-            echo "</li>\n";
+            echo "<div class='card'>";
+            echo "<h3>$title</h3>";
+            echo "<p class='description'>$summary</p>";
+            echo "<p>Game Platform: $platform</p>";
+            echo "<p>Genres: $genres</p>";
+            echo "<a href=\"gamedetails.php?game_id=$game_id\">View Game Details </a>";
+            echo "</div>";
         }
         
     
