@@ -21,17 +21,17 @@
         $resultUser->fetch();
         $resultUser->close();
          
-        $queryWatchlist = "SELECT game_id, title, summary, platform, release_date, genres, rating FROM games WHERE genres LIKE ? LIMIT 10";
+        $queryLibrary = "SELECT game_id, title, summary, platform, release_date, genres, rating FROM games WHERE genres LIKE ? LIMIT 10";
         $pattern = '%'. $genreUser . '%';
         
-        $resultWatchlist = $conn->prepare($queryWatchlist);
-        $resultWatchlist->bind_param('s', $pattern);
-        $resultWatchlist->execute();
-        $resultWatchlist->bind_result($game_id, $title, $summary, $platform, $release_date, $genres, $rating);
+        $resultLibrary = $conn->prepare($queryLibrary);
+        $resultLibrary->bind_param('s', $pattern);
+        $resultLibrary->execute();
+        $resultLibrary->bind_result($game_id, $title, $summary, $platform, $release_date, $genres, $rating);
     
         echo "<h2>Games from Your Favourite Genre</h2>\n";
         echo "<div class = 'card-container'>\n";
-        while ($resultWatchlist->fetch()) {
+        while ($resultLibrary->fetch()) {
             echo "<div class='card'>";
             echo "<h3>$title</h3>";
             echo "<p class='description'>$summary</p>";
@@ -40,7 +40,7 @@
             echo "<a href=\"gamedetails.php?game_id=$game_id\">View Game Details </a>";
             echo "</div>";
         }
-        $resultWatchlist->close();
+        $resultLibrary->close();
 
         $selectedYear = '2023';
         $queryLatest = "SELECT game_id, title, summary, platform, genres, rating FROM games WHERE release_date LIKE ? LIMIT 10";
