@@ -29,7 +29,7 @@
         if ($result->num_rows > 0) {
             echo "<ul>";
             while ($row = $result->fetch_assoc()) {
-                echo "<div><a class='filtered-game-link' href=\"search.php?game_id={$row['game_id']}\">{$row['title']}</a></div><br>";
+                echo "<div><a class='filtered-game-link' href=\"gamedetails.php?game_id={$row['game_id']}\">{$row['title']}</a></div><br>";
                 // Display other relevant information as needed
             }
             echo "</ul>";
