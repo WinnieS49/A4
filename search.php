@@ -29,8 +29,15 @@
         if ($result->num_rows > 0) {
             echo "<ul>";
             while ($row = $result->fetch_assoc()) {
-                echo "<div><a class='filtered-game-link' href=\"gamedetails.php?game_id={$row['game_id']}\">{$row['title']}</a></div><br>";
+				echo "<div class='card'>";
+                echo "<h3>{$row['title']}</h3>";
+                echo "<p class='description'>{$row['summary']}</p>";
+                echo "<p>Release Date: {$row['release_date']}</p>";
+                echo "<p>Genres: {$row['genres']}</p>";
+                echo "<a href=\"gamedetails.php?game_id={$row['game_id']}\">View Game Details </a>";
+                echo "</div>";
                 // Display other relevant information as needed
+                
             }
             echo "</ul>";
         } else {
