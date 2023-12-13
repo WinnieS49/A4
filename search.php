@@ -3,8 +3,6 @@
 <?php include('include/functions.php'); ?>
 <div class = 'container'>
 
-<h2>Search Results</h2><br>
-
 <?php
     if (isset($_GET['query'])) {
         $searchQuery = $_GET['query'];
@@ -24,6 +22,8 @@
         // Perform the search query
         $sql = "SELECT * FROM games WHERE title LIKE '%$searchQuery%' LIMIT $startIndex, $gamesPerPage";
         $result = $conn->query($sql);
+
+        echo "<h2>Search Results for '$searchQuery'</h2><br>";
 
         // Display the search results
         if ($result->num_rows > 0) {
