@@ -1,58 +1,20 @@
-<!-- navigation bar -->
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Classic Models</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <ul class="menu-bar">
-            <li class="menu-item"><a href="homepage.php">Home</a></li>
-            <li class="menu-item"><a href="watchlist.php">Library</a></li>
-            <li class="menu-item"><a href="showmodels.php">All Games</a></li>
-            <!-- check if user login, show different options based on user status -->
-            <?php
-            session_start();
-            if (isset($_SESSION['valid_user'])){
-                echo "<li class='menu-item'><a href='logout.php'>Logout</a></li>";
-            }else{
-                echo "<li class='menu-item'><a href='login.php'>Login</a></li>";
-            }
+<!-- include header and functions -->
+<?php include('include/header.php'); ?>
+<?php include('include/functions.php'); ?>
 
-            ?>
+<div class = 'container'>
 
-        <div class="search-bar">
-                <form action="search.php" method="get">
-                    <input type="text" name="query" placeholder="Search...">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-        </ul>
-
-        <div class = 'container'>
-
-    </body>
-</html>
 <?php
-    if($_SERVER['HTTPS'] != "on") {
-        header("Location: https://" . $_SERVER['HTTP_HOST'] .
-            $_SERVER['REQUEST_URI']);
-        exit();
-    }
+    //secure connection
+    redirectToHttps();
 
-    $servername = "localhost";
-    $username = "root"; //login with root
-    $password = "";
-    $dbname = "gamearchive"; //classicmodels.sql
-    
     //create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    
-    //check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = connectToDatabase();
+
+    $name = "";
+    $email = "";
+    $password = "";
+    $phoneNumber = "";
 
     //check if all the fields are filled 
     if (isset($_POST['submit'])) {
@@ -70,65 +32,92 @@
 
         //all fields are filled, password will be encrypted and data saved into user table and jump to login page
         else {
-            $encryptedPass = password_hash($password, PASSWORD_DEFAULT);
+            //check if the username already exists
+            $checkUsernameQuery = "SELECT * FROM users WHERE username = ?";
+            $checkUsernameResult = $conn->prepare($checkUsernameQuery);
+            $checkUsernameResult->bind_param('s', $username);
+            $checkUsernameResult->execute();
+            $existingUser = $checkUsernameResult->get_result()->fetch_assoc();
+        
+            if ($existingUser) {
+                $message = "Username already exists. Please choose a different username.";
+            }else{
+                $encryptedPass = password_hash($password, PASSWORD_DEFAULT);
     
-            $query = "INSERT INTO users (email, password, name, username, phoneNumber, preferredGenre) ";
-            $query .= "VALUES (?,?,?,?, ?, ?)";
-            
-            $result = $conn->prepare($query);
-            $result->bind_param('ssssss',$email,$encryptedPass,$name, $username, $phoneNumber, $genre);
-            $result->execute();
+                $query = "INSERT INTO users (email, password, name, username, phoneNumber, preferredGenre) ";
+                $query .= "VALUES (?,?,?,?, ?, ?)";
+                
+                $result = $conn->prepare($query);
+                $result->bind_param('ssssss',$email, $encryptedPass, $name, $username, $phoneNumber, $genre);
+                $result->execute();
 
-            //login after they register
-            $_SESSION['valid_user'] = $email;
+                //login after they register
+                $_SESSION['valid_user'] = $username;
 
-            //check if there is a callback URL
-            if (isset($_SESSION['callback_url'])) {
-                $callback_url = $_SESSION['callback_url'];
-                unset($_SESSION['callback_url']);
+                //check if there is a callback URL
+                if (isset($_SESSION['callback_url'])) {
+                    $callback_url = $_SESSION['callback_url'];
+                    unset($_SESSION['callback_url']);
 
-                //redirect to the callback URL
-                header("Location: $callback_url");
-                exit();
-            } else {
-                //no callback URL redirect to showmodels.php
-                header("Location: showmodels.php");
-                exit();
+                    //redirect to the callback URL
+                    header("Location: $callback_url");
+                    exit();
+                } else {
+                    //no callback URL redirect to getgames.php
+                    header("Location: homepage.php");
+                    exit();
+                }
             }
+
+           
         }
-    }
-    else {
-        $name = "";
-        $email = "";
-        $password = "";
-        $phoneNumber = "";
+    }else {
     }
 ?>
 
-<h2>Register</h2>
+<h2>Register</h2><br>
 <!-- HTML register form -->
 <div class = pad>
     <form method="post" action="register.php"> 
-        <label for="lname">Name: <input type="text" name="name" value="<?php $name ?>"></label>
+        <label for="name">Name: <input type="text" name="name"></label>
         <br/>
-        <label for="email">Email Address: <input type="email" name="email" value="<?php $email ?>"></label>
+        <label for="email">Email Address: <input type="email" name="email"></label>
         <br/>
-        <label for="phoneNumber">Phone Number: <input type="text" name="phoneNumber" value="<?php $email ?>"></label>
+        <label for="phoneNumber">Phone Number: <input type="text" name="phoneNumber"></label>
         <br/>
-        <label for="username">Username: <input type="text" name="username" value="<?php $email ?>"></label>
+        <label for="username">Username: <input type="text" name="username"></label>
         <br/>
-        <label for="password">Password: <input type="password" name="password" value=""></label>
+        <label for="password">Password: <input type="password" name="password"></label>
         <br/>
+        
         
         <label for="preferredGenre">Preferred Genre:</label>
         <select name="preferredGenre">
-            <option value="Action">Action</option>
             <option value="Adventure">Adventure</option>
-            <option value="Role-playing">Role-playing</option>
             <option value="Puzzle">Puzzle</option>
+            <option value="Brawler">Brawler</option>
+            <option value="Indie">Indie</option>
+            <option value="Platform">Platform</option>
+            <option value="Simulator">Simulator</option>
+            <option value="Shooter">Shooter</option>
+            <option value="Turn-Based Strategy">Turn-Based Strategy</option>
+            <option value="Strategy">Strategy</option>
+            <option value="Tactical">Tactical</option>
+            <option value="Arcade">Arcade</option>
+            <option value="Music">Music</option>
+            <option value="Visual Novel">Visual Novel</option>
+            <option value="Racing">Racing</option>
+            <option value="Fighting">Fighting</option>
+            <option value="MOBA">MOBA</option>
+            <option value="Card & Board Game">Card & Board Game</option>
+            <option value="Real Time Strategy">Real Time Strategy</option>
+            <option value="Sport">Sport</option>
+            <option value="Quiz/Trivia">Quiz/Trivia</option>
+            <option value="Point-and-Click">Point-and-Click</option>
+            <option value="Pinball">Pinball</option>
         </select><br/>
 
-        <input type="submit" name="submit" value="Register">
+        <br><input type="submit" name="submit" value="Register">
 
         <?php 
         // if the message is not empty (user does not fill all the info), it will display the message

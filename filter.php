@@ -1,29 +1,80 @@
 <?php
-// Database connection code here
-$servername = "localhost";
-$username = "root"; //login with root
-$password = "";
-$dbname = "gamearchive"; //classicmodels.sql
+// include header and functions
+include('include/functions.php');
 
-//create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+// create connection
+$conn = connectToDatabase();
 
-//check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+//pages
+$itemsPerPage = 10;
+$page = isset($_POST['page']) ? $_POST['page'] : 1;
+$offset = ($page - 1) * $itemsPerPage;
 
-// Fetch products based on selected category
-if (isset($_POST['genre'])) {
-    $genre = $_POST['genre'];
+    // Fetch games based on selected genre, platform, year, and rating
+    // Initialize variables
+    $genre = isset($_POST['genre']) ? $_POST['genre'] : '';
+    $platform = isset($_POST['platform']) ? $_POST['platform'] : '';
+    $year = isset($_POST['year']) ? $_POST['year'] : '';
+    $rating = isset($_POST['rating']) ? $_POST['rating'] : '';
 
-    $query = "SELECT * FROM games WHERE genres LIKE '%$genre%'";
+    // Start the base query
+    $query = "SELECT * FROM games WHERE 1";
 
-    $result = $conn->query($query);
-
-    // Display the filtered products
-    while ($row = $result->fetch_assoc()) {
-        echo "<div>{$row['title']}</div>";
+    // Add conditions for each parameter if they are set
+    if (!empty($genre)) {
+        $query .= " AND genres LIKE '%$genre%'";
     }
+
+    if (!empty($platform)) {
+        $query .= " AND platform LIKE '%$platform%'";
+    }
+
+    // Add conditions for year and rating if they are set
+    if (!empty($year)) {
+        $query .= " AND release_date LIKE '%$year%'";
+    }
+
+    if (!empty($rating)) {
+        $query .= " AND rating >= '$rating'";
+    }
+
+$query .= " LIMIT $itemsPerPage OFFSET $offset";
+
+$countQuery = "SELECT COUNT(*) AS total FROM games WHERE 1";
+
+// Add conditions for each parameter if they are set
+if (!empty($genre)) {
+    $countQuery .= " AND genres LIKE '%$genre%'";
 }
+
+if (!empty($platform)) {
+    $countQuery .= " AND platform LIKE '%$platform%'";
+}
+
+// Add conditions for year and rating if they are set
+if (!empty($year)) {
+    $countQuery .= " AND release_date LIKE '%$year%'";
+}
+
+if (!empty($rating)) {
+    $countQuery .= " AND rating >= '$rating'";
+}
+
+//count total results
+$countResult = $conn->query($countQuery);
+$totalResults = $countResult->fetch_assoc()['total'];
+
+
+$result = $conn->query($query);
+
+// Display the filtered games
+while ($row = $result->fetch_assoc()) {
+    echo "<div><a class='filtered-game-link' href='gamedetails.php?game_id={$row['game_id']}'>{$row['title']}</a></div>";
+}
+
+$totalPages = ceil($totalResults / $itemsPerPage);
+
+// Display current page number
+echo "<span>Page $page of $totalPages</span>";
+
 ?>
