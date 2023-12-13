@@ -55,11 +55,13 @@
         echo "<h2>Lastest Games</h2>\n";
         echo "<ul class = modellist>\n";
         while ($resultLatest->fetch()) {
-            echo "<br>";
-            echo "<li>";
-            echo "<a href=\"gamedetails.php?game_id=$game_id\">$title</a>";
-            echo " ";
-            echo "</li>\n";
+            echo "<div class='card'>";
+            echo "<h3>$title</h3>";
+            echo "<p class='description'>$summary</p>";
+            echo "<p>Release Date: $release_date</p>";
+            echo "<p>Genres: $genres</p>";
+            echo "<a href=\"gamedetails.php?game_id=$game_id\">View Game Details </a>";
+            echo "</div>";
         }
         
     
