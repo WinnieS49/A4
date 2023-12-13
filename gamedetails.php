@@ -18,11 +18,14 @@
 
     //display results
     if($result->fetch()){
-        echo "<h3>$title</h3>\n";
-        echo "<p>Release Date: $release_date </p>\n";
-        echo "<p>Developer: $developer </p>\n";
-        echo "<p>Platforms: $platform </p>\n";
-        echo "<p>Genres: $genres </p>\n";
+        echo "<h3>$title</h3><br>";
+        echo "<p>Summary: $summary </p><br>";
+        echo "<p>Release Date: $release_date </p><br>";
+        echo "<p>Developer: $developer </p><br>";
+        echo "<p>Platforms: $platform </p><br>";
+        echo "<p>Rating: $rating </p><br>";
+        echo "<p>Reviews: $reviews </p><br>";
+        echo "<p>Genres: $genres </p><br>";
     }
 
     //release results
@@ -65,6 +68,8 @@
             echo "Game has been successfully added to your library.";
         }else if($message == 'exists'){
             echo "Game is already in your library.";
+        }else if($message == 'none'){
+            echo "Create a new library to add your games to.";
         }
     }
 
