@@ -15,12 +15,14 @@
     $email = "";
     $password = "";
     $phoneNumber = "";
+    $message = '';
 
     //check if all the fields are filled 
     if (isset($_POST['submit'])) {
         $name = !empty($_POST["name"]) ? trim($_POST["name"]) : "";
         $email = !empty($_POST["email"]) ? trim($_POST["email"]) : "";
         $password = !empty($_POST["password"]) ? $_POST["password"] : "";
+        $confirmPassword = !empty($_POST["confirmPassword"]) ? $_POST["confirmPassword"] : "";
         $username = !empty($_POST["username"]) ? $_POST["username"] : "";
         $phoneNumber = !empty($_POST["phoneNumber"]) ? $_POST["phoneNumber"] : "";
         $genre = !empty($_POST["preferredGenre"]) ? $_POST["preferredGenre"] : "";
@@ -28,10 +30,13 @@
         //if not all fields are filled, message will appear 
         if (!$name || !$email || !$username || !$password|| !$phoneNumber) {
             $message = "Please fill all the fields above.";
+        }else if($password != $confirmPassword){
+            $message = "Password does not match.";
         }
 
         //all fields are filled, password will be encrypted and data saved into user table and jump to login page
         else {
+            
             //check if the username already exists
             $checkUsernameQuery = "SELECT * FROM users WHERE username = ?";
             $checkUsernameResult = $conn->prepare($checkUsernameQuery);
@@ -88,6 +93,8 @@
         <label for="username">Username: <input type="text" name="username"></label>
         <br/>
         <label for="password">Password: <input type="password" name="password"></label>
+        <br/>
+        <label for="confirmPassword">Confirm Password: <input type="password" name="confirmPassword"></label>
         <br/>
         
         

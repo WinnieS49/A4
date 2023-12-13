@@ -69,9 +69,9 @@
 
     }else{
         $selectedYear = '2023';
-        $queryLatest = "SELECT game_id, title FROM games WHERE release_date LIKE ? LIMIT 10";
+        $queryLatest = "SELECT game_id, title, summary, platform, genres, rating FROM games WHERE release_date LIKE ? LIMIT 10";
         $pattern = '%' . $selectedYear . '%';
-
+        
         $resultLatest = $conn->prepare($queryLatest);
         $resultLatest->bind_param('s', $pattern);
         $resultLatest->execute();
