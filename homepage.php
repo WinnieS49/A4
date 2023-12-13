@@ -21,7 +21,7 @@
         $resultUser->fetch();
         $resultUser->close();
          
-        $queryLibrary = "SELECT game_id, title, summary, platform, release_date, genres, rating FROM games WHERE genres LIKE ? ORDER BY release_date DESC LIMIT 5";
+        $queryLibrary = "SELECT game_id, title, summary, platform, release_date, genres, rating FROM games WHERE genres LIKE ? AND release_date != 'TBD' ORDER BY release_date DESC LIMIT 5";
         $pattern = '%'. $genreUser . '%';
         
         $resultLibrary = $conn->prepare($queryLibrary);
